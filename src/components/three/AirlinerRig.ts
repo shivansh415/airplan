@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import type { Anchor } from "@/data/parts";
-import { buildAirliner, type AirlinerModel, type Piece, type Pivot } from "./model";
+import { BUILD_STEPS, buildAirliner, buildAirlinerSteps, type AirlinerModel, type Piece, type Pivot } from "./model";
 import { PALETTE, makeBlueprintMaterial, makeLineMaterial, makeMaskedLineMaterial, makeSolidMaterial } from "./materials";
 
 /** Per-anchor look. Every value is 0..1 and is eased toward each frame. */
@@ -64,55 +64,91 @@ export class AirlinerRig {
   bob = 1;
   private fanAngle = 0;
 
-  constructor() {
-    this.model = buildAirliner();
-    this.root.name = "airliner";
+  private solidCache = new Map<string, THREE.MeshPhysicalMaterial>();
 
+  /** Synchronous build (small views such as the part-page locator). */
+  constructor(model: AirlinerModel = buildAirliner(), deferPieces = false) {
+    this.model = model;
+    this.root.name = "airliner";
     for (const [pivot, pos] of Object.entries(this.model.pivots) as [Pivot, THREE.Vector3][]) {
       const g = new THREE.Group();
       g.position.copy(pos);
       this.pivotGroups[pivot] = g;
       this.root.add(g);
     }
+    if (!deferPieces) this.model.pieces.forEach((p, i) => this.addPiece(p, i));
+  }
 
-    const solidCache = new Map<string, THREE.MeshPhysicalMaterial>();
-    this.model.pieces.forEach((piece, i) => {
-      const ctl = this.ensureAnchor(piece.anchor);
-      if (!piece.internal) ctl.hasSkin = true;
-
-      const key = `${piece.anchor}:${piece.kind}`;
-      let solidMat = solidCache.get(key);
-      if (!solidMat) {
-        solidMat = makeSolidMaterial(piece.kind, ctl.solidPlane);
-        solidCache.set(key, solidMat);
-        ctl.solidMats.push(solidMat);
+  /**
+   * Build without freezing the page: geometry and meshes are created in
+   * ~12 ms slices between frames. `onProgress` receives 0..1.
+   */
+  static async createAsync(onProgress?: (p: number) => void) {
+    const frame = () => new Promise<void>((r) => requestAnimationFrame(() => r()));
+    let t0 = performance.now();
+    const slice = async () => {
+      if (performance.now() - t0 > 12) {
+        await frame();
+        t0 = performance.now();
       }
+    };
+    const gen = buildAirlinerSteps();
+    let step = 0;
+    let r = gen.next();
+    while (!r.done) {
+      onProgress?.((++step / BUILD_STEPS) * 0.7);
+      await slice();
+      r = gen.next();
+    }
+    const rig = new AirlinerRig(r.value, true);
+    const n = r.value.pieces.length;
+    for (let i = 0; i < n; i++) {
+      rig.addPiece(r.value.pieces[i], i);
+      if (i % 4 === 0) {
+        onProgress?.(0.7 + (0.3 * i) / n);
+        await slice();
+      }
+    }
+    onProgress?.(1);
+    return rig;
+  }
 
-      const group = new THREE.Group();
-      group.name = piece.name;
-      const solid = new THREE.Mesh(piece.geometry, solidMat);
-      solid.userData.anchor = piece.anchor;
-      solid.userData.piece = piece.name;
-      const bp = new THREE.Mesh(piece.geometry, piece.internal ? ctl.bpInternal : ctl.bpSkin);
-      bp.renderOrder = piece.internal ? 2 : 1;
-      const lineGeo = piece.lines ?? new THREE.EdgesGeometry(piece.geometry, 28);
-      const lines = new THREE.LineSegments(lineGeo, piece.internal ? ctl.linesInternal : ctl.lines);
-      lines.renderOrder = piece.internal ? 4 : 3;
-      group.add(solid, bp, lines);
+  private addPiece(piece: Piece, i: number) {
+    const ctl = this.ensureAnchor(piece.anchor);
+    if (!piece.internal) ctl.hasSkin = true;
 
-      const parent = piece.pivot ? this.pivotGroups[piece.pivot] : this.root;
-      const base = piece.origin.clone();
-      if (piece.pivot) base.sub(this.model.pivots[piece.pivot]);
-      group.position.copy(base);
-      parent.add(group);
+    const key = `${piece.anchor}:${piece.kind}`;
+    let solidMat = this.solidCache.get(key);
+    if (!solidMat) {
+      solidMat = makeSolidMaterial(piece.kind, ctl.solidPlane);
+      this.solidCache.set(key, solidMat);
+      ctl.solidMats.push(solidMat);
+    }
 
-      piece.geometry.computeBoundingBox();
-      const size = piece.geometry.boundingBox!.getSize(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const hero = THREE.MathUtils.clamp(3.2 / Math.max(maxDim, 0.01), 1, 2.4);
-      this.items.push({ piece, group, solid, bp, lines, base, phase: i * 1.731, hero });
-      this.pickables.push(solid);
-    });
+    const group = new THREE.Group();
+    group.name = piece.name;
+    const solid = new THREE.Mesh(piece.geometry, solidMat);
+    solid.userData.anchor = piece.anchor;
+    solid.userData.piece = piece.name;
+    const bp = new THREE.Mesh(piece.geometry, piece.internal ? ctl.bpInternal : ctl.bpSkin);
+    bp.renderOrder = piece.internal ? 2 : 1;
+    const lineGeo = piece.lines ?? new THREE.EdgesGeometry(piece.geometry, 28);
+    const lines = new THREE.LineSegments(lineGeo, piece.internal ? ctl.linesInternal : ctl.lines);
+    lines.renderOrder = piece.internal ? 4 : 3;
+    group.add(solid, bp, lines);
+
+    const parent = piece.pivot ? this.pivotGroups[piece.pivot] : this.root;
+    const base = piece.origin.clone();
+    if (piece.pivot) base.sub(this.model.pivots[piece.pivot]);
+    group.position.copy(base);
+    parent.add(group);
+
+    piece.geometry.computeBoundingBox();
+    const size = piece.geometry.boundingBox!.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const hero = THREE.MathUtils.clamp(3.2 / Math.max(maxDim, 0.01), 1, 2.4);
+    this.items.push({ piece, group, solid, bp, lines, base, phase: i * 1.731, hero });
+    this.pickables.push(solid);
   }
 
   private ensureAnchor(id: Anchor): AnchorCtl {

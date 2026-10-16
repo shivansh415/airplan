@@ -44,9 +44,15 @@ export function Gate() {
     const start = performance.now();
     const p = { v: 0 };
     let done = false;
+    let builtAt = 0;
     const tick = () => {
-      const tp = Math.min(1, (performance.now() - start) / 2800);
-      const target = rig.ready ? tp : Math.min(tp, 0.86);
+      // Real progress (airliner build) with a short minimum so the drawing always plays.
+      const now = performance.now();
+      const tp = Math.min(1, (now - start) / 2200);
+      if (rig.loadProgress >= 1 && !builtAt) builtAt = now;
+      // never hang: if frames don't report in (slow GPU, no WebGL) carry on shortly after the build
+      const ready = rig.ready || (builtAt > 0 && now - builtAt > 2500) || now - start > 15000;
+      const target = ready ? tp : Math.min(tp, 0.08 + 0.84 * rig.loadProgress);
       const dt = Math.min(0.5, gsap.ticker.deltaRatio() / 60);
       p.v += (target - p.v) * (1 - Math.exp(-dt * 4.5));
       const v = target >= 1 && p.v > 0.97 ? 1 : p.v;

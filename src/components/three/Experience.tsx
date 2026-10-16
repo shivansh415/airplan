@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, Environment, Lightformer } from "@react-three/drei";
 import { Reflector } from "three/addons/objects/Reflector.js";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { AirlinerRig, type AnchorLook } from "./AirlinerRig";
 import { Clouds } from "./Clouds";
 import { PALETTE, TRAIL_LENGTH, sharedBlueprintUniforms } from "./materials";
@@ -109,10 +109,58 @@ function makeFloor(mobile: boolean) {
   return floor;
 }
 
+/** Builds the airliner in slices (so the preloader keeps animating), then mounts the scene. */
 export function Experience({ mobile }: { mobile: boolean }) {
-  const { camera, size, scene } = useThree();
-  const air = useMemo(() => new AirlinerRig(), []);
-  useEffect(() => () => air.dispose(), [air]);
+  const [air, setAir] = useState<AirlinerRig | null>(null);
+  useEffect(() => {
+    let alive = true;
+    let made: AirlinerRig | null = null;
+    AirlinerRig.createAsync((p) => {
+      rig.loadProgress = p * 0.9;
+    })
+      .then((a) => {
+        if (alive) {
+          made = a;
+          setAir(a);
+        } else a.dispose();
+      });
+    return () => {
+      alive = false;
+      made?.dispose();
+    };
+  }, []);
+  if (!air) return null;
+  return <Scene air={air} mobile={mobile} />;
+}
+
+function Scene({ air, mobile }: { air: AirlinerRig; mobile: boolean }) {
+  const { camera, size, scene, gl } = useThree();
+  const setFrameloop = useThree((s) => s.setFrameloop);
+
+  // Hold rendering until every shader in the scene is compiled in the background,
+  // so the first frame doesn't freeze the page (and the preloader) while compiling.
+  useLayoutEffect(() => {
+    let alive = true;
+    // Only worth it with parallel compile support; without it three's promise never resolves.
+    const parallel = gl.getContext().getExtension("KHR_parallel_shader_compile") !== null;
+    if (!parallel) {
+      rig.loadProgress = 1;
+      return;
+    }
+    setFrameloop("never");
+    const timeout = new Promise((r) => setTimeout(r, 4000));
+    Promise.race([gl.compileAsync(scene, camera), timeout])
+      .catch(() => undefined)
+      .then(() => {
+        if (!alive) return;
+        rig.loadProgress = 1;
+        setFrameloop("always");
+      });
+    return () => {
+      alive = false;
+      setFrameloop("always");
+    };
+  }, [gl, scene, camera, setFrameloop]);
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") Object.assign(window, { __scene: scene, __rig: rig, __camera: camera, __ui: useUI, __air: air });
   }, [scene, camera, air]);
@@ -133,6 +181,7 @@ export function Experience({ mobile }: { mobile: boolean }) {
   const shots = useMemo(() => ({ out: shot(), tmp: shot(), a: shot(), b: shot() }), []);
   const prevMode = useRef<"scan" | "explode" | "systems">("scan");
   const flightPrev = useRef(0);
+  const framesDrawn = useRef(0);
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
   const ground = useMemo(() => new THREE.Plane(new V3(0, 1, 0), 0), []);
   const trail = useMemo(() => ({ last: new V3(0, 0, -999), hit: new V3(), ndc: new THREE.Vector2(), lastPointer: "" }), []);
@@ -168,7 +217,8 @@ export function Experience({ mobile }: { mobile: boolean }) {
 
   useFrame((state, rawDt) => {
     const dt = Math.min(rawDt, 0.05);
-    if (!rig.ready && state.clock.elapsedTime > 0.3) rig.ready = true;
+    // ready once a few frames are on screen (first frames include shader compilation)
+    if (!rig.ready && ++framesDrawn.current > 4) rig.ready = true;
     const t = state.clock.elapsedTime;
     const ui = useUI.getState();
     const aspect = size.width / size.height;

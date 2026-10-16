@@ -12,6 +12,8 @@ export const rig = {
   /** 0..1 how much the catalog covers the screen */
   catalog: 0,
 
+  /** 0..1 progress of building the 3D airliner */
+  loadProgress: 0,
   /** WebGL scene has rendered its first frames */
   ready: false,
   /** Hangar lights, animated by the intro sequence */

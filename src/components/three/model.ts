@@ -6,7 +6,7 @@
  * so the website can explode it, x-ray it and link it to spare parts.
  */
 import * as THREE from "three";
-import { mergeGeometries, toCreasedNormals } from "three/addons/utils/BufferGeometryUtils.js";
+import { mergeGeometries, mergeVertices, toCreasedNormals } from "three/addons/utils/BufferGeometryUtils.js";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import type { Anchor } from "@/data/parts";
 
@@ -395,11 +395,15 @@ const spanStations = (x0: number, x1: number, tcScale = 1) => {
 /* Generic helpers                                                     */
 /* ------------------------------------------------------------------ */
 
-/** Merge geometries regardless of index / attribute differences (keeps position + normal). */
+/**
+ * Merge geometries regardless of attribute differences (keeps position + normal).
+ * Stays indexed when every input is indexed, which keeps rounded boxes ~4x lighter.
+ */
 function merge(list: THREE.BufferGeometry[]) {
+  const indexed = list.every((g) => g.index);
   return mergeGeometries(
     list.map((g) => {
-      const m = g.index ? g.toNonIndexed() : g.clone();
+      const m = indexed ? g.clone() : g.index ? g.toNonIndexed() : g.clone();
       for (const k of Object.keys(m.attributes)) if (k !== "position" && k !== "normal") m.deleteAttribute(k);
       if (!m.attributes.normal) m.computeVertexNormals();
       return m;
@@ -407,8 +411,24 @@ function merge(list: THREE.BufferGeometry[]) {
   );
 }
 
+/** Dense pieces skip blueprint edge lines (they are unreadable at that density anyway). */
+const NO_LINES = () => new THREE.BufferGeometry();
+
+const RBOX_CACHE = new Map<string, THREE.BufferGeometry>();
+
 function rbox(w: number, h: number, d: number, r: number, x: number, y: number, z: number, rx = 0, ry = 0) {
-  const g = new RoundedBoxGeometry(w, h, d, 2, Math.min(r, w / 2, h / 2, d / 2));
+  const key = `${w}|${h}|${d}|${r}`;
+  let tpl = RBOX_CACHE.get(key);
+  if (!tpl) {
+    const raw = new RoundedBoxGeometry(w, h, d, 2, Math.min(r, w / 2, h / 2, d / 2));
+    raw.deleteAttribute("uv");
+    raw.deleteAttribute("normal");
+    // RoundedBoxGeometry is non-indexed; welding it is ~6x fewer vertices.
+    tpl = mergeVertices(raw, 1e-5);
+    tpl.computeVertexNormals();
+    RBOX_CACHE.set(key, tpl);
+  }
+  const g = tpl.clone();
   if (rx) g.rotateX(rx);
   if (ry) g.rotateY(ry);
   g.translate(x, y, z);
@@ -546,7 +566,19 @@ type AddOpts = {
   gearDoor?: boolean;
 };
 
+/** Number of yields in buildAirlinerSteps (for progress reporting). */
+export const BUILD_STEPS = 19;
+
+/** Build in one go (part pages). */
 export function buildAirliner(): AirlinerModel {
+  const gen = buildAirlinerSteps();
+  let r = gen.next();
+  while (!r.done) r = gen.next();
+  return r.value;
+}
+
+/** Generator version: yields between sections so the page can keep animating. */
+export function* buildAirlinerSteps(): Generator<void, AirlinerModel> {
   const pieces: Piece[] = [];
 
   const add = (name: string, anchor: Anchor, kind: Kind, geometry: THREE.BufferGeometry, explode: [number, number, number], opts: AddOpts = {}) => {
@@ -590,6 +622,7 @@ export function buildAirliner(): AirlinerModel {
     });
   };
 
+  yield;
   /* ---------------- Fuselage ---------------- */
   const sections: [string, Anchor, number, number, [number, number, number]][] = [
     ["Radome", "radome", NOSE, -17.45, [0, 0, -7.5]],
@@ -629,6 +662,7 @@ export function buildAirliner(): AirlinerModel {
     add("APU exhaust", "apu", "darkMetal", cyl(s.hw * 0.85, s.hw * 0.75, 0.25, "z", 0, s.cy, TAIL - 0.05, 24), [0, 1.4, 8]);
   }
 
+  yield;
   /* ---------------- Cockpit glazing & cabin windows ---------------- */
   {
     const P = Math.PI;
@@ -668,6 +702,7 @@ export function buildAirliner(): AirlinerModel {
     addPair("Cabin windows", "windows", "glass", merge(right), [2.4, 0, 0]);
   }
 
+  yield;
   /* ---------------- Doors (panel + seam) ---------------- */
   {
     type Door = [string, number, number, 1 | -1, number, number, boolean, [number, number, number]];
@@ -713,6 +748,7 @@ export function buildAirliner(): AirlinerModel {
     }
   }
 
+  yield;
   /* ---------------- Wings ---------------- */
   {
     const main = merge([
@@ -783,6 +819,7 @@ export function buildAirliner(): AirlinerModel {
     add("Centre fuel tank", "fuel", "tank", rbox(3.0, 0.6, 3.3, 0.2, 0, -1.3, 0.4), [0, 3.6, 0], { internal: true });
   }
 
+  yield;
   /* ---------------- Engines ---------------- */
   {
     const EX = 5.8;
@@ -932,6 +969,7 @@ export function buildAirliner(): AirlinerModel {
     addPair("Pylon", "pylon", "skin", loft([py(-1.3, EZ + 1.2, 4.7), py(-1.02, EZ + 2.2, 4.3), py(-0.72, EZ + 3.4, 3.6)], 0, 1, 16), [6.2, -1.8, 0]);
   }
 
+  yield;
   /* ---------------- Empennage ---------------- */
   {
     const HS = 6.3;
@@ -974,6 +1012,7 @@ export function buildAirliner(): AirlinerModel {
     add("Rudder", "rudder", "skin", loft([vs(0.32), vs(VS - 0.22)], 0.695, 1), [0, 5.2, 8.6]);
   }
 
+  yield;
   /* ---------------- Landing gear ---------------- */
   const pivots: Record<Pivot, THREE.Vector3> = {
     gearR: new V3(3.4, -1.35, 2.3),
@@ -1048,6 +1087,7 @@ export function buildAirliner(): AirlinerModel {
     }
   }
 
+  yield;
   /* ---------------- Lights ---------------- */
   {
     const tipY = wingY(SPAN);
@@ -1062,6 +1102,7 @@ export function buildAirliner(): AirlinerModel {
     addPair("Logo light", "lights", "white", dome(0.06).translate(1.6, 0.85, 15.2), [3.4, 1.8, 6.6]);
   }
 
+  yield;
   /* ---------------- Probes & antennas ---------------- */
   {
     const z = -15.6;
@@ -1086,8 +1127,9 @@ export function buildAirliner(): AirlinerModel {
     add("Antennas", "probes", "dark", merge([blade(R - 0.02, -6, 1), blade(R - 0.02, 2.5, 1), blade(-2.0, -4, -1), blade(-1.98, 6.4, -1)]), [0, 2.4, 0]);
   }
 
+  yield;
   /* ---------------- Interior ---------------- */
-  buildInterior(add);
+  yield* buildInterior(add);
 
   const bounds = new Map<Anchor, THREE.Box3>();
   for (const p of pieces) {
@@ -1132,7 +1174,8 @@ function lru(w: number, h: number, d: number, x: number, y: number, z: number, b
   trim.push(rbox(w * 0.7, 0.012, 0.01, 0.004, x, y + h * 0.3, z - d / 2 - 0.004));
 }
 
-function buildInterior(add: AddFn) {
+function* buildInterior(add: AddFn): Generator<void, void> {
+  yield;
   /* Weather radar: parabolic dish on a gimbal */
   {
     const prof: THREE.Vector2[] = [];
@@ -1151,6 +1194,7 @@ function buildInterior(add: AddFn) {
     add("Weather radar antenna", "radome", "darkMetal", merge([dish, gimbal]), [0, 0, -5.6], { internal: true });
   }
 
+  yield;
   /* Flight deck */
   {
     const panel = merge([
@@ -1176,6 +1220,7 @@ function buildInterior(add: AddFn) {
     add("Crew seats", "cockpit", "seat", merge(seats), [0, 4.2, -6.2], { internal: true });
   }
 
+  yield;
   /* Avionics bay: rack frames with LRUs */
   {
     const frame: THREE.BufferGeometry[] = [];
@@ -1191,9 +1236,10 @@ function buildInterior(add: AddFn) {
     }
     add("Avionics racks", "avionics", "metal", merge(frame), [0, -5.8, -6.6], { internal: true });
     add("Avionics LRUs", "avionics", "darkMetal", merge(body), [0, -5.8, -7.4], { internal: true });
-    add("LRU handles", "avionics", "chrome", merge(trim), [0, -5.8, -7.4], { internal: true });
+    add("LRU handles", "avionics", "chrome", merge(trim), [0, -5.8, -7.4], { internal: true, lines: NO_LINES() });
   }
 
+  yield;
   /* Electrical: batteries & transformer-rectifiers */
   {
     const bat: THREE.BufferGeometry[] = [];
@@ -1208,6 +1254,7 @@ function buildInterior(add: AddFn) {
     add("Transformer rectifiers", "electrical", "darkMetal", merge(fins), [3.4, -5.6, -5.4], { internal: true });
   }
 
+  yield;
   /* Cabin: floor, seats, bins */
   {
     add("Cabin floor", "cabin", "carpet", rbox(3.5, 0.06, 21.6, 0.02, 0, -0.9, -0.6), [0, 6.4, 0], { internal: true });
@@ -1218,8 +1265,8 @@ function buildInterior(add: AddFn) {
       seatUnit(-1.02, z, fabric, frame);
       seatUnit(1.02, z, fabric, frame);
     }
-    add("Passenger seats", "cabin", "fabric", merge(fabric), [0, 7.6, 0], { internal: true });
-    add("Seat frames", "cabin", "metal", merge(frame), [0, 7.6, 0], { internal: true });
+    add("Passenger seats", "cabin", "fabric", merge(fabric), [0, 7.6, 0], { internal: true, lines: NO_LINES() });
+    add("Seat frames", "cabin", "metal", merge(frame), [0, 7.6, 0], { internal: true, lines: NO_LINES() });
     const binShape = new THREE.Shape();
     binShape.moveTo(0, 0);
     binShape.lineTo(0.5, 0);
@@ -1232,6 +1279,7 @@ function buildInterior(add: AddFn) {
     add("Overhead bins", "cabin", "cabin", merge([binR, binL]), [0, 9.6, 0], { internal: true });
   }
 
+  yield;
   /* Galleys & lavatories */
   {
     const galley = (z: number, dir: 1 | -1) => {
@@ -1251,6 +1299,7 @@ function buildInterior(add: AddFn) {
     add("Aft galley inserts", "galley", "metal", merge(a.fronts), [0, 7.6, 4.1], { internal: true });
   }
 
+  yield;
   /* Air-conditioning packs in the belly */
   {
     const metal: THREE.BufferGeometry[] = [];
@@ -1298,6 +1347,7 @@ function buildInterior(add: AddFn) {
     add("Pack heat exchangers", "packs", "darkMetal", merge(dark), [0, -7, -0.6], { internal: true });
   }
 
+  yield;
   /* Hydraulics in the main gear bay */
   {
     const dark: THREE.BufferGeometry[] = [];
@@ -1334,6 +1384,7 @@ function buildInterior(add: AddFn) {
     add("Hydraulic pumps & lines", "hydraulic", "chrome", merge(metal), [3, -6.8, 4.2], { internal: true });
   }
 
+  yield;
   /* APU: small gas turbine in the tail cone */
   {
     const yc = section(16.4).cy;
