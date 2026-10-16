@@ -5,6 +5,7 @@ import { useUI } from "@/lib/store";
 import { audio } from "@/lib/audio";
 import { scrollToId } from "@/lib/scroll";
 import { PARTS } from "@/data/parts";
+import { BRAND } from "@/lib/brand";
 
 const NAV = [
   { id: "explore", label: "Aircraft" },
@@ -55,8 +56,8 @@ export function Header() {
           ))}
         </nav>
         <button onClick={() => scrollToId("top")} className="col-start-2 text-center" aria-label="Back to top">
-          <span className="wide text-[22px] font-light tracking-[0.02em] md:text-[26px]">Airframe</span>
-          <span className="eyebrow mt-0.5 block text-[9px] opacity-60">Parts explorer</span>
+          <span className="wide text-[22px] font-light tracking-[0.02em] md:text-[26px]">{BRAND.name}</span>
+          <span className="eyebrow mt-0.5 block text-[9px] opacity-60">Wholesale · Retail spare parts</span>
         </button>
         <div className="flex items-center justify-end gap-5 text-[14px] font-semibold md:gap-8">
           <span className="mono hidden text-[12px] opacity-70 sm:inline">{PARTS.length} parts · demo catalog</span>

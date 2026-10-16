@@ -12,6 +12,7 @@ import {
   systemById,
 } from "@/data/parts";
 import { LocatorSlot } from "@/components/LocatorSlot";
+import { BRAND } from "@/lib/brand";
 import { PartCard } from "@/components/PartCard";
 
 export function generateStaticParams() {
@@ -21,7 +22,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/parts/[id]">): Promise<Metadata> {
   const { id } = await params;
   const part = partById(id);
-  return { title: part ? `${part.name} — Airframe parts` : "Part not found" };
+  return { title: part ? `${part.name} — ${BRAND.name}` : "Part not found" };
 }
 
 export default async function PartPage({ params }: PageProps<"/parts/[id]">) {
@@ -51,6 +52,7 @@ export default async function PartPage({ params }: PageProps<"/parts/[id]">) {
     ["Location", part.location],
     ["Aircraft area", ANCHOR_LABELS[part.anchor]],
     ["Compatible aircraft", part.compatible.join(", ")],
+    ["Supply", "Wholesale (fleet quantities) and retail (single units)"],
     ["Datasheet", "Available on request"],
   ];
 
@@ -61,8 +63,8 @@ export default async function PartPage({ params }: PageProps<"/parts/[id]">) {
           ← Back to explorer
         </Link>
         <Link href="/" className="text-center">
-          <span className="wide text-[22px] font-light">Airframe</span>
-          <span className="eyebrow block text-[9px] opacity-60">Parts explorer</span>
+          <span className="wide text-[22px] font-light">{BRAND.name}</span>
+          <span className="eyebrow block text-[9px] opacity-60">Wholesale · Retail spare parts</span>
         </Link>
         <span className="mono hidden text-[12px] opacity-60 sm:inline">
           {String(index + 1).padStart(3, "0")} / {PARTS.length}

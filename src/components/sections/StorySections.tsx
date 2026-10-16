@@ -8,6 +8,7 @@ import { useUI } from "@/lib/store";
 import { explodeAircraft } from "@/lib/explode";
 import { ATA_CHAPTERS, PARTS, SYSTEMS } from "@/data/parts";
 import { DIMENSIONS } from "@/components/three/model";
+import { BRAND } from "@/lib/brand";
 
 const stickyBack = "sticky top-0 h-[100svh] w-full overflow-hidden z-0";
 const stickyFront = "sticky top-0 -mt-[100svh] h-[100svh] w-full overflow-hidden z-[2] pointer-events-none";
@@ -55,7 +56,7 @@ export function HangarSection() {
         >
           <span
             data-ghost
-            className="display block text-[15.5vw] leading-none"
+            className="display block text-[10.2vw] leading-none"
             style={{
               background: "linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.02) 90%)",
               WebkitBackgroundClip: "text",
@@ -63,7 +64,7 @@ export function HangarSection() {
               color: "transparent",
             }}
           >
-            AIRFRAME
+            AIRFROMNERZA
           </span>
         </div>
         <div
@@ -71,10 +72,10 @@ export function HangarSection() {
           style={{ opacity: entered ? 1 : 0, transitionDelay: entered ? "2s" : "0s" }}
         >
           <div data-fade className="eyebrow absolute inset-x-0 top-[17vh] text-center text-white/55">
-            Spare parts showcase — narrow-body airliner
+            {BRAND.tagline}
           </div>
           <p data-fade className="absolute bottom-10 left-4 max-w-[300px] text-[15px] leading-relaxed text-white/70 md:left-10">
-            {PARTS.length} spare parts across {SYSTEMS.length} aircraft systems, explored from the hangar floor to the last O-ring.
+            Spare parts for airline fleets, supplied wholesale and retail. {PARTS.length} parts across {SYSTEMS.length} aircraft systems, from the hangar floor to the last O-ring.
           </p>
           <div data-fade className="absolute bottom-10 right-4 flex items-center gap-4 md:right-10">
             <span className="eyebrow text-white/60">Scroll to take off</span>

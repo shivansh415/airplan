@@ -7,6 +7,7 @@ import { rig } from "@/lib/rig";
 import { useUI } from "@/lib/store";
 import { CATEGORY_INFO, PARTS, SYSTEMS, systemById, type PartCategory } from "@/data/parts";
 import { PartCard } from "@/components/PartCard";
+import { BRAND } from "@/lib/brand";
 
 const CATEGORIES = Object.keys(CATEGORY_INFO) as PartCategory[];
 
@@ -63,7 +64,7 @@ export function CatalogSection() {
             <h2 className="display mt-4 text-[clamp(48px,8vw,140px)]">The catalog</h2>
           </div>
           <p className="max-w-[380px] text-[15px] leading-relaxed text-ink/70">
-            Search by name, ATA chapter or demo part number. Filter by aircraft system or part category. Open any part for its full sheet.
+            Every part is supplied wholesale for fleets or retail as single units. Search by name, ATA chapter or demo part number, filter by system or category, and open any part for its full sheet.
           </p>
         </div>
 
@@ -132,7 +133,12 @@ export function CatalogSection() {
 
       <footer className="border-t border-ink/15">
         <div className="mx-auto flex max-w-[1480px] flex-col gap-4 px-4 py-10 text-[13px] text-ink/60 md:flex-row md:items-center md:justify-between md:px-10">
-          <span className="wide text-[18px] font-light text-ink">Airframe</span>
+          <span>
+            <span className="wide block text-[18px] font-light text-ink">{BRAND.name}</span>
+            <span className="mt-1 block">
+              © 2026 {BRAND.company}
+            </span>
+          </span>
           <span className="max-w-[640px]">
             Demonstration catalog for a generic narrow-body airliner. Part numbers (DEMO-xx-xxx) are placeholders. Real part numbers, compatibility and
             availability are to be confirmed by the supplier against the aircraft IPC.

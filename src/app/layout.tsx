@@ -14,9 +14,9 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Airframe — Aircraft Spare Parts Explorer",
+  title: "AirFromnerza — Wholesale & Retail Aircraft Spare Parts",
   description:
-    "An interactive showcase of narrow-body airliner spare parts: explore the aircraft, explode it into its systems and browse 144 catalogued components.",
+    "AirFromnerza by FROMNERZA Wholesale Retail Trading LTD: wholesale and retail aircraft spare parts. Explore the airliner, explode it into its systems and browse 144 catalogued components.",
 };
 
 export const viewport: Viewport = {

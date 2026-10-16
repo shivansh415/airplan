@@ -7,6 +7,7 @@ import { useUI } from "@/lib/store";
 import { audio } from "@/lib/audio";
 import { planformPaths } from "./three/model";
 import { PARTS, SYSTEMS } from "@/data/parts";
+import { BRAND } from "@/lib/brand";
 
 const STATUS = [
   "Loading airframe geometry",
@@ -46,8 +47,9 @@ export function Gate() {
     const tick = () => {
       const tp = Math.min(1, (performance.now() - start) / 2800);
       const target = rig.ready ? tp : Math.min(tp, 0.86);
-      p.v += (target - p.v) * 0.07;
-      const v = target >= 1 && p.v > 0.995 ? 1 : p.v;
+      const dt = Math.min(0.5, gsap.ticker.deltaRatio() / 60);
+      p.v += (target - p.v) * (1 - Math.exp(-dt * 4.5));
+      const v = target >= 1 && p.v > 0.97 ? 1 : p.v;
       if (counter.current) counter.current.textContent = String(Math.round(v * 100)).padStart(3, "0");
       if (status.current) status.current.textContent = STATUS[Math.min(STATUS.length - 1, Math.floor(v * STATUS.length))];
       svg.current?.querySelectorAll<SVGPathElement>("path[data-draw]").forEach((el, i) => {
@@ -137,7 +139,7 @@ export function Gate() {
           <span key={c} className={`absolute h-5 w-5 border-white/30 ${c}`} />
         ))}
         <div className="mono absolute left-9 top-8 text-[10px] tracking-[0.18em] text-white/40">
-          AIRFRAME / PARTS EXPLORER
+          AIRFROMNERZA / AIRCRAFT SPARE PARTS
           <br />
           DWG AF-NB-000 · REV A
         </div>
@@ -190,8 +192,9 @@ export function Gate() {
 
         {/* title + enter */}
         <div className="absolute inset-x-0 top-[8vh] text-center">
-          <div className="eyebrow text-white/45">Aircraft spare parts showcase</div>
-          <h1 className="display mt-4 text-[clamp(40px,6vw,92px)] font-light">Airframe</h1>
+          <div className="eyebrow text-white/45">{BRAND.company}</div>
+          <h1 className="display mt-4 text-[clamp(38px,6vw,92px)] font-light">{BRAND.name}</h1>
+          <div className="mt-3 text-[14px] text-white/50">{BRAND.tagline}</div>
         </div>
         <div
           className={`absolute inset-x-0 bottom-[15vh] flex flex-col items-center gap-4 transition-all duration-700 sm:flex-row sm:justify-center md:bottom-[17vh] ${
