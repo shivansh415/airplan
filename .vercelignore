@@ -1,0 +1,5 @@
+references
+.claude
+node_modules
+.next
+*.tsbuildinfo
