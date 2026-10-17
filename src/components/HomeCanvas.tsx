@@ -1,13 +1,20 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Experience } from "./three/Experience";
 import { useUI } from "@/lib/store";
 
 export default function HomeCanvas() {
   const covered = useUI((s) => s.covered);
-  const [mobile] = useState(() => window.innerWidth < 768);
+  // follows rotation / resizing across the phone breakpoint (camera framing + DPR)
+  const [mobile, setMobile] = useState(() => window.innerWidth < 768);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const on = () => setMobile(mq.matches);
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
 
   return (
     <Canvas

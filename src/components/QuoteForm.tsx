@@ -26,8 +26,9 @@ export function QuoteForm() {
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [error, setError] = useState("");
   const [partId, setPartId] = useState("");
+  const [prefill, setPrefill] = useState("");
   const startedAt = useRef(0);
-  const partsRef = useRef<HTMLTextAreaElement>(null);
+  const thanks = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     startedAt.current = Date.now();
@@ -36,9 +37,14 @@ export function QuoteForm() {
     if (p) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- read once from the URL on mount
       setPartId(p.id);
-      if (partsRef.current && !partsRef.current.value) partsRef.current.value = `${p.name} (${p.ata}, ${p.partNumber})`;
+      setPrefill(`${p.name} (${p.ata}, ${p.partNumber})`);
     }
   }, []);
+
+  // move focus to the confirmation so keyboard / screen-reader users hear it
+  useEffect(() => {
+    if (state === "done") thanks.current?.focus();
+  }, [state]);
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -74,7 +80,7 @@ export function QuoteForm() {
           part: partId,
           locale: tr.locale,
           page: window.location.pathname + window.location.search,
-          startedAt: startedAt.current,
+          elapsedMs: Date.now() - startedAt.current,
         }),
       });
       if (!res.ok) throw new Error();
@@ -87,11 +93,17 @@ export function QuoteForm() {
 
   if (state === "done") {
     return (
-      <div className="rounded-[28px] bg-white p-8 text-center shadow-[0_30px_80px_-40px_rgba(42,36,32,0.5)] md:p-12">
+      <div role="status" className="rounded-[28px] bg-white p-8 text-center shadow-[0_30px_80px_-40px_rgba(42,36,32,0.5)] md:p-12">
         <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-accent text-[22px] text-white">✓</div>
-        <h3 className="wide mt-6 text-[clamp(22px,2.4vw,30px)] font-semibold">{t("form.successTitle")}</h3>
+        <h3 ref={thanks} tabIndex={-1} className="wide mt-6 outline-none text-[clamp(22px,2.4vw,30px)] font-semibold">{t("form.successTitle")}</h3>
         <p className="mx-auto mt-3 max-w-[420px] text-[15px] leading-relaxed text-ink/65">{t("form.successBody")}</p>
-        <button onClick={() => setState("idle")} className="btn btn-ghost mt-8">
+        <button
+          onClick={() => {
+            startedAt.current = Date.now();
+            setState("idle");
+          }}
+          className="btn btn-ghost mt-8"
+        >
           {t("form.again")}
         </button>
       </div>
@@ -149,7 +161,7 @@ export function QuoteForm() {
           <span className="mt-1 block px-1 text-[11.5px] text-ink/45">{t("form.aircraftPh")}</span>
         </label>
         <label className="relative block md:col-span-2">
-          <textarea ref={partsRef} name="parts" rows={3} placeholder=" " className={`${field} resize-y`} />
+          <textarea key={prefill} defaultValue={prefill} name="parts" rows={3} placeholder=" " className={`${field} resize-y`} />
           <span className={label}>{t("form.parts")}</span>
           <span className="mt-1 block px-1 text-[11.5px] text-ink/45">{t("form.partsPh")}</span>
         </label>
@@ -162,7 +174,7 @@ export function QuoteForm() {
         </label>
       </div>
 
-      {state === "error" && <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-[14px] text-red-700">{error}</p>}
+      {state === "error" && <p role="alert" className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-[14px] text-red-700">{error}</p>}
 
       <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-[12.5px] text-ink/50">{t("form.privacy")}</p>

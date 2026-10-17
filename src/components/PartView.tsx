@@ -84,7 +84,7 @@ export function PartView({ id }: { id: string }) {
               <span className="block text-[17px] font-semibold">{t("part.enquire")}</span>
               <span className="mt-0.5 block text-[13.5px] text-paper-2/65">{t("part.enquireSub")}</span>
             </span>
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-ink transition-transform group-hover:translate-x-1 rtl:-scale-x-100">→</span>
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-ink transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1">→</span>
           </Link>
 
           <div className="mt-4 rounded-2xl bg-white/60 p-5 text-[14px] leading-relaxed text-ink/75">

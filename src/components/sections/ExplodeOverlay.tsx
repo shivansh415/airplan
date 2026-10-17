@@ -21,17 +21,17 @@ export function ExplodeOverlay() {
   const set = useUI((s) => s.set);
   const drag = useRef({ down: false, x: 0, y: 0, moved: 0 });
 
+  // Escape closes the parts panel (tour or exploded view), then reassembles.
   useEffect(() => {
-    if (!exploded) return;
     const key = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        if (useUI.getState().selected) set({ selected: null });
-        else reassembleAircraft();
-      }
+      if (e.key !== "Escape") return;
+      const ui = useUI.getState();
+      if (ui.selected) set({ selected: null });
+      else if (ui.exploded) reassembleAircraft();
     };
     window.addEventListener("keydown", key);
     return () => window.removeEventListener("keydown", key);
-  }, [exploded, set]);
+  }, [set]);
 
   const onDown = (e: React.PointerEvent) => {
     drag.current = { down: true, x: e.clientX, y: e.clientY, moved: 0 };
@@ -61,7 +61,7 @@ export function ExplodeOverlay() {
   };
 
   return (
-    <div className={`fixed inset-0 z-[40] transition-opacity duration-700 ${exploded ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+    <div inert={!exploded} className={`fixed inset-0 z-[40] transition-opacity duration-700 ${exploded ? "opacity-100" : "pointer-events-none opacity-0"}`}>
       <div
         className={`absolute inset-0 touch-none ${hovered ? "cursor-pointer" : "cursor-grab active:cursor-grabbing"}`}
         onPointerDown={onDown}
@@ -76,7 +76,7 @@ export function ExplodeOverlay() {
         <div className="mono mt-3 text-[11px] text-ink/55">{tr.t("ex.hint")}</div>
       </div>
 
-      <ul className="no-scrollbar absolute bottom-28 left-4 top-48 hidden w-[250px] overflow-y-auto pr-2 md:left-10 md:block">
+      <ul data-lenis-prevent className="no-scrollbar absolute bottom-28 left-4 top-48 hidden w-[250px] overflow-y-auto pr-2 md:left-10 md:block">
         {ANCHORS.map((a) => (
           <li key={a}>
             <button
@@ -117,7 +117,7 @@ export function AnchorPanel() {
       className={`fixed z-[45] flex flex-col bg-paper-2/95 shadow-[0_30px_80px_-20px_rgba(42,36,32,0.45)] backdrop-blur-xl transition-transform duration-[700ms] ease-[cubic-bezier(.2,.8,.2,1)]
       inset-x-0 bottom-0 max-h-[70svh] rounded-t-[28px] md:inset-x-auto md:bottom-4 md:right-4 md:top-4 md:max-h-none md:w-[420px] md:rounded-[28px]
       ${selected ? "translate-y-0 md:translate-x-0" : "translate-y-[110%] md:translate-x-[115%] md:translate-y-0"}`}
-      aria-hidden={!selected}
+      inert={!selected}
     >
       <div className="flex items-start justify-between gap-4 p-6 pb-4">
         <div>
@@ -129,7 +129,7 @@ export function AnchorPanel() {
           ×
         </button>
       </div>
-      <div className="no-scrollbar flex-1 overflow-y-auto px-4 pb-6">
+      <div data-lenis-prevent className="no-scrollbar flex-1 overflow-y-auto overscroll-contain px-4 pb-6">
         {parts.map((p) => (
           <PartRow key={p.id} part={p} />
         ))}

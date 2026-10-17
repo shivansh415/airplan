@@ -14,23 +14,39 @@ const recent = new Map<string, number[]>();
 
 const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().replace(/\s+\n/g, "\n").slice(0, max) : "");
 
+/**
+ * Client address as nginx saw it. X-Real-IP is set by the proxy; otherwise the LAST
+ * X-Forwarded-For hop is the one our proxy appended (earlier hops are client-supplied).
+ */
+function clientIp(req: Request) {
+  const real = req.headers.get("x-real-ip")?.trim();
+  if (real) return real;
+  const hops = req.headers.get("x-forwarded-for")?.split(",").map((h) => h.trim()).filter(Boolean) ?? [];
+  return hops[hops.length - 1] || "unknown";
+}
+
 export async function POST(req: Request) {
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "unknown";
+  const ip = clientIp(req);
   const now = Date.now();
+  if (recent.size > 5000) for (const [k, v] of recent) if (now - v[v.length - 1] > 60_000) recent.delete(k);
   const hits = (recent.get(ip) ?? []).filter((t) => now - t < 60_000);
   if (hits.length >= 5) return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
   recent.set(ip, [...hits, now]);
 
   let body: Record<string, unknown>;
   try {
-    body = await req.json();
+    const parsed: unknown = await req.json();
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("not an object");
+    body = parsed as Record<string, unknown>;
   } catch {
     return NextResponse.json({ ok: false, error: "bad_request" }, { status: 400 });
   }
 
-  // Bots: hidden honeypot field filled in, or submitted faster than a human could type.
-  const startedAt = typeof body.startedAt === "number" ? body.startedAt : 0;
-  if (str(body.website, 200) || (startedAt && now - startedAt < 2500)) return NextResponse.json({ ok: true });
+  // Likely bots: hidden honeypot filled in, or sent faster than a person could type.
+  // Kept (flagged) rather than dropped, so a real enquiry is never lost silently.
+  // elapsedMs is measured on the visitor's own clock, so clock differences don't matter.
+  const elapsed = typeof body.elapsedMs === "number" ? body.elapsedMs : -1;
+  const spam = Boolean(str(body.website, 200)) || (elapsed >= 0 && elapsed < 2500);
 
   const lead = {
     id: randomUUID(),
@@ -49,6 +65,7 @@ export async function POST(req: Request) {
     page: str(body.page, 300),
     ip,
     userAgent: str(req.headers.get("user-agent"), 300),
+    ...(spam ? { spam: true } : {}),
   };
 
   if (lead.name.length < 2 || (!lead.email && !lead.phone)) {

@@ -81,6 +81,13 @@ class AudioEngine {
     this.master.gain.setTargetAtTime(on ? 0.9 : 0, this.ctx.currentTime, 0.25);
   }
 
+  /** Silence everything while the tab is hidden (frames stop, so levels would freeze). */
+  pause(hidden: boolean) {
+    if (!this.ctx) return;
+    if (hidden) void this.ctx.suspend();
+    else if (this.enabled) void this.ctx.resume();
+  }
+
   /** hangar 0..1, altitude 0..1 */
   setScene(hangar: number, altitude: number) {
     if (!this.ctx || !this.drone || !this.wind || !this.windFilter) return;

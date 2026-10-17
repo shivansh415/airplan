@@ -11,7 +11,13 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/parts/[id]">): Promise<Metadata> {
   const { id } = await params;
   const part = partById(id);
-  return { title: part ? `${part.name} — ${BRAND.name}` : "Part not found" };
+  if (!part) return { title: "Part not found" };
+  return {
+    title: `${part.name} — ${BRAND.name}`,
+    description: part.description,
+    alternates: { canonical: `/parts/${part.id}` },
+    openGraph: { title: `${part.name} — ${BRAND.name}`, description: part.description, images: [part.image] },
+  };
 }
 
 export default async function PartPage({ params }: PageProps<"/parts/[id]">) {

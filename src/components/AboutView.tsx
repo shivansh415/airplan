@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { ATA_CHAPTERS, PARTS, SYSTEMS } from "@/data/parts";
-import { planformPaths } from "@/components/three/model";
+import { PLANFORM_PATHS } from "@/lib/planform";
 import { SiteHeader } from "@/components/SiteHeader";
 import { QuoteForm } from "@/components/QuoteForm";
 import { COMPANY, CREDIT } from "@/lib/company";
@@ -46,7 +46,7 @@ export function AboutView() {
   const tr = useT();
   const { t } = tr;
   const root = useReveal();
-  const paths = useMemo(() => planformPaths(), []);
+  const paths = PLANFORM_PATHS;
 
   const stats: [string, UIKey][] = [
     [String(PARTS.length), "about.statParts"],
@@ -225,11 +225,12 @@ export function AboutView() {
       </footer>
 
       <style>{`
-        .about [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1); }
-        .about [data-reveal][data-in="1"] { opacity: 1; transform: none; }
+        html.js .about [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1); }
+        html.js .about [data-reveal][data-in="1"] { opacity: 1; transform: none; }
         .about-plane path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: about-draw 1.8s cubic-bezier(.6,.1,.2,1) forwards; }
         @keyframes about-draw { to { stroke-dashoffset: 0; } }
-        @media (prefers-reduced-motion: reduce) { .about [data-reveal] { opacity: 1; transform: none; } .about-plane path { stroke-dashoffset: 0; animation: none; } }
+        @media (prefers-reduced-motion: reduce) { html.js .about [data-reveal] { opacity: 1; transform: none; } .about-plane path { stroke-dashoffset: 0; animation: none; } }
+        @media print { html.js .about [data-reveal] { opacity: 1; transform: none; } .about-plane path { stroke-dashoffset: 0; animation: none; } }
       `}</style>
     </div>
   );

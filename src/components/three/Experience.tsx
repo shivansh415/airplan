@@ -128,6 +128,8 @@ export function Experience({ mobile }: { mobile: boolean }) {
     return () => {
       alive = false;
       made?.dispose();
+      rig.ready = false;
+      rig.loadProgress = 0;
     };
   }, []);
   if (!air) return null;
@@ -155,11 +157,10 @@ function Scene({ air, mobile }: { air: AirlinerRig; mobile: boolean }) {
       .then(() => {
         if (!alive) return;
         rig.loadProgress = 1;
-        setFrameloop("always");
+        setFrameloop(useUI.getState().covered ? "never" : "always");
       });
     return () => {
       alive = false;
-      setFrameloop("always");
     };
   }, [gl, scene, camera, setFrameloop]);
   useEffect(() => {
@@ -197,7 +198,14 @@ function Scene({ air, mobile }: { air: AirlinerRig; mobile: boolean }) {
       rig.pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
       rig.pointer.inside = true;
     };
-    const leave = () => (rig.pointer.inside = false);
+    // touch drags turn into native scrolling (pointercancel), so follow the finger via touchmove
+    const touch = (e: TouchEvent) => {
+      const p = e.touches[0];
+      if (p) move({ clientX: p.clientX, clientY: p.clientY } as PointerEvent);
+    };
+    const leave = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") rig.pointer.inside = false;
+    };
     // In the systems tour, clicking a highlighted part opens its parts panel.
     const hitsAircraft = (cx: number, cy: number) => {
       const ndc = new THREE.Vector2((cx / window.innerWidth) * 2 - 1, -(cy / window.innerHeight) * 2 + 1);
@@ -219,12 +227,16 @@ function Scene({ air, mobile }: { air: AirlinerRig; mobile: boolean }) {
     window.addEventListener("click", click);
     window.addEventListener("pointermove", move, { passive: true });
     window.addEventListener("pointerdown", move, { passive: true });
+    window.addEventListener("touchmove", touch, { passive: true });
     document.documentElement.addEventListener("pointerleave", leave);
     return () => {
       window.removeEventListener("click", click);
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerdown", move);
+      window.removeEventListener("touchmove", touch);
       document.documentElement.removeEventListener("pointerleave", leave);
+      document.body.style.cursor = "";
+      audio.setScene(0, 0);
     };
   }, [camera, air]);
 
@@ -260,6 +272,7 @@ function Scene({ air, mobile }: { air: AirlinerRig; mobile: boolean }) {
     }
     if (mode === "systems" && ui.systemIndex !== sysIdx) ui.set({ systemIndex: sysIdx });
     if (mode !== "systems" && ui.systemIndex !== -1) ui.set({ systemIndex: -1 });
+    if (ui.selected && !ui.exploded && (mode !== "systems" || rig.catalog > 0.5)) ui.set({ selected: null });
 
     const ready = mode === "scan" && rig.blueprint > 0.66 && rig.blueprint < 0.999;
     if (ready !== ui.drawingReady) ui.set({ drawingReady: ready });

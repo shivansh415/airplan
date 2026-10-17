@@ -21,6 +21,9 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
             {t("nav.about")}
           </Link>
         </nav>
+        <Link href="/" className="justify-self-start text-[14px] font-semibold opacity-90 md:hidden">
+          {t("nav.aircraft")}
+        </Link>
         <Link href="/" className="col-start-2 text-center">
           <span className="wide text-[22px] font-light tracking-[0.02em] md:text-[26px]">{BRAND.name}</span>
           <span className="eyebrow mt-0.5 block text-[9px] opacity-60">{t("brand.sub")}</span>

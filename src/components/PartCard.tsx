@@ -14,6 +14,7 @@ export function PartCard({ part, size = "md" }: { part: Part; size?: "md" | "sm"
       href={`/parts/${part.id}`}
       onMouseEnter={() => set({ focus: part.anchor })}
       onMouseLeave={() => set({ focus: null })}
+      onClick={() => set({ focus: null })}
       className="group block"
     >
       <div className="relative aspect-square overflow-hidden rounded-[18px] bg-[#ece2d4]">
@@ -24,7 +25,7 @@ export function PartCard({ part, size = "md" }: { part: Part; size?: "md" | "sm"
           sizes={size === "sm" ? "160px" : "(max-width: 768px) 50vw, 25vw"}
           className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-[1.05]"
         />
-        <span className="mono absolute left-3 top-3 rounded-full bg-white/70 px-2 py-0.5 text-[10px] text-ink/70 backdrop-blur">
+        <span className="mono absolute start-3 top-3 rounded-full bg-white/70 px-2 py-0.5 text-[10px] text-ink/70 backdrop-blur">
           {part.ata}
         </span>
       </div>
@@ -45,7 +46,10 @@ export function PartRow({ part, onClick }: { part: Part; onClick?: () => void })
   return (
     <Link
       href={`/parts/${part.id}`}
-      onClick={onClick}
+      onClick={() => {
+        set({ focus: null, selected: null });
+        onClick?.();
+      }}
       onMouseEnter={() => set({ focus: part.anchor })}
       onMouseLeave={() => set({ focus: null })}
       className="group flex items-center gap-4 rounded-2xl p-2 transition-colors hover:bg-white/60"
@@ -59,7 +63,7 @@ export function PartRow({ part, onClick }: { part: Part; onClick?: () => void })
           {part.partNumber} · {tr.category(part.category).name}
         </div>
       </div>
-      <span className="pr-2 text-ink/40 transition-transform group-hover:translate-x-1 group-hover:text-ink">→</span>
+      <span className="pe-2 text-ink/40 transition-transform group-hover:translate-x-1 group-hover:text-ink rtl:-scale-x-100 rtl:group-hover:-translate-x-1">→</span>
     </Link>
   );
 }

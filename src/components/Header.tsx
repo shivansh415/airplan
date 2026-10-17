@@ -62,6 +62,10 @@ export function Header() {
             {t("nav.about")}
           </Link>
         </nav>
+        {/* phones: the nav is hidden, keep a way to the About / quote page */}
+        <Link href="/about" className="justify-self-start text-[14px] font-semibold opacity-90 md:hidden">
+          {t("nav.about")}
+        </Link>
         <button onClick={() => scrollToId("top")} className="col-start-2 text-center" aria-label="Back to top">
           <span className="wide text-[22px] font-light tracking-[0.02em] md:text-[26px]">{BRAND.name}</span>
           <span className="eyebrow mt-0.5 block text-[9px] opacity-60">{t("brand.sub")}</span>

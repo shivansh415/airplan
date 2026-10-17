@@ -13,14 +13,25 @@ import { useT } from "@/i18n/client";
 
 const CATEGORIES = Object.keys(CATEGORY_INFO) as PartCategory[];
 
+/** Search folding: case (Turkish İ/ı too), accents and Arabic letter variants. */
+const fold = (s: string, locale: string) =>
+  s
+    .toLocaleLowerCase(locale)
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .replace(/ı/g, "i")
+    .replace(/[أإآٱ]/g, "ا")
+    .replace(/ة/g, "ه")
+    .replace(/ى/g, "ي");
+
 export function CatalogSection() {
   const ref = useRef<HTMLElement>(null);
   const system = useUI((s) => s.catalogSystem);
   const set = useUI((s) => s.set);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<PartCategory | "all">("all");
-  const q = useDeferredValue(query.trim().toLowerCase());
   const tr = useT();
+  const q = useDeferredValue(fold(query.trim(), tr.locale));
   const { t } = tr;
 
   useGSAP(
@@ -32,12 +43,18 @@ export function CatalogSection() {
         onUpdate: (s) => {
           rig.catalog = s.progress;
         },
+        // also on (re)creation, e.g. coming back to the home page
+        onRefresh: (s) => {
+          rig.catalog = s.progress;
+        },
       });
       ScrollTrigger.create({
         trigger: ref.current,
-        start: "top top",
+        // a hair early: scrolling *to* the catalog lands exactly on its top edge
+        start: "top 2px",
         end: "bottom top",
         onToggle: (s) => useUI.getState().set({ covered: s.isActive }),
+        onRefresh: (s) => useUI.getState().set({ covered: s.isActive }),
       });
     },
     { scope: ref },
@@ -59,7 +76,7 @@ export function CatalogSection() {
               tr.part(p).description,
               systemById(p.system).name,
               tr.system(p.system).name,
-            ].some((s) => s.toLowerCase().includes(q))),
+            ].some((s) => fold(s, tr.locale).includes(q))),
       ),
     [q, system, category, tr],
   );
@@ -80,8 +97,10 @@ export function CatalogSection() {
         <div className="sticky top-[var(--header-h,84px)] z-10 -mx-4 mt-12 bg-paper/90 px-4 py-4 backdrop-blur-md md:-mx-10 md:px-10">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
             <label className="flex flex-1 items-center gap-3 rounded-full bg-white px-5 py-3.5 shadow-[0_10px_30px_-18px_rgba(42,36,32,0.5)]">
-              <span className="text-ink/40">⌕</span>
+              <span aria-hidden className="text-ink/40">⌕</span>
               <input
+                type="search"
+                aria-label={t("cat.search")}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t("cat.search")}

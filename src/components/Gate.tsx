@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap, getLenis } from "@/lib/scroll";
 import { rig } from "@/lib/rig";
 import { useUI } from "@/lib/store";
 import { audio } from "@/lib/audio";
-import { planformPaths } from "./three/model";
+import { PLANFORM_PATHS } from "@/lib/planform";
 import { PARTS, SYSTEMS } from "@/data/parts";
 import { BRAND } from "@/lib/brand";
 import { LanguageSwitcher, useT } from "@/i18n/client";
@@ -29,7 +29,7 @@ export function Gate() {
   }, [tr]);
   const statusText = (i: number) =>
     trRef.current.t(STATUS_KEYS[Math.min(STATUS_KEYS.length - 1, i)], { parts: PARTS.length, systems: SYSTEMS.length });
-  const paths = useMemo(() => planformPaths(), []);
+  const paths = PLANFORM_PATHS;
 
   const root = useRef<HTMLDivElement>(null);
   const content = useRef<HTMLDivElement>(null);
@@ -79,7 +79,18 @@ export function Gate() {
     return () => gsap.ticker.remove(tick);
   }, [gone]);
 
+  // keep keyboard focus inside the preloader while it covers the page
+  useEffect(() => {
+    if (gone || !root.current?.parentElement) return;
+    const behind = [...root.current.parentElement.children].filter((el) => el !== root.current);
+    behind.forEach((el) => el.setAttribute("inert", ""));
+    return () => behind.forEach((el) => el.removeAttribute("inert"));
+  }, [gone]);
+
+  const entering = useRef(false);
   const enter = (withSound: boolean) => {
+    if (!ready || entering.current) return;
+    entering.current = true;
     audio.setEnabled(withSound);
     set({ entered: true, sound: withSound });
     if (withSound) {
@@ -112,7 +123,13 @@ export function Gate() {
     L(2.12, 0.6, 0.04, 0.8);
     L(2.16, 0.15, 0.18);
     L(2.6, 1, 0.05, 1);
-    tl.add(() => getLenis()?.start(), 2.7);
+    tl.add(() => {
+      const lenis = getLenis();
+      lenis?.start();
+      // deep link such as /#catalog: go there once the doors are open
+      const hash = window.location.hash.slice(1);
+      if (lenis && hash && document.getElementById(hash)) lenis.scrollTo(`#${hash}`, { duration: 1.6 });
+    }, 2.7);
   };
 
   if (gone) return null;
@@ -210,11 +227,11 @@ export function Gate() {
             ready ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
           }`}
         >
-          <button onClick={() => enter(true)} className="btn">
+          <button onClick={() => enter(true)} disabled={!ready} className="btn">
             {tr.t("gate.enterSound")}
             <span className="grid h-6 w-6 place-items-center rounded-full bg-ink text-[11px] text-white">♪</span>
           </button>
-          <button onClick={() => enter(false)} className="text-[14px] font-semibold text-white/55 transition-colors hover:text-white">
+          <button onClick={() => enter(false)} disabled={!ready} className="text-[14px] font-semibold text-white/55 transition-colors hover:text-white">
             {tr.t("gate.enterSilent")}
           </button>
         </div>

@@ -16,12 +16,19 @@ type Lead = {
   message: string;
   part: string;
   locale: string;
+  /** honeypot filled or sent suspiciously fast: kept, but probably a bot */
+  spam?: boolean;
 };
 
-const COLUMNS: (keyof Lead)[] = ["createdAt", "name", "company", "email", "phone", "country", "interest", "aircraft", "parts", "message", "part", "locale"];
+const COLUMNS: (keyof Lead)[] = ["createdAt", "name", "company", "email", "phone", "country", "interest", "aircraft", "parts", "message", "part", "locale", "spam"];
 
 function toCsv(leads: Lead[]) {
-  const esc = (v: string) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  // quote every cell; neutralise spreadsheet formulas (=, +, -, @) so opening the file is safe
+  const esc = (v: unknown) => {
+    let s = String(v ?? "");
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+    return `"${s.replace(/"/g, '""')}"`;
+  };
   return [COLUMNS.join(","), ...leads.map((l) => COLUMNS.map((c) => esc(l[c])).join(","))].join("\n");
 }
 
@@ -37,7 +44,7 @@ export function LeadsAdmin() {
     setError("");
     try {
       const res = await fetch("/api/leads", { headers: { "x-admin-key": k }, cache: "no-store" });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({ ok: false, error: `http_${res.status}` }));
       if (!res.ok || !data.ok) throw new Error(data.error === "unauthorized" ? "Wrong key." : data.error === "disabled" ? "Admin key is not configured on the server." : "Could not load leads.");
       setLeads(data.leads);
       sessionStorage.setItem("leads-key", k);
@@ -65,7 +72,7 @@ export function LeadsAdmin() {
     a.href = URL.createObjectURL(blob);
     a.download = `iarchtech-leads-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
-    URL.revokeObjectURL(a.href);
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
 
   return (
@@ -126,7 +133,10 @@ export function LeadsAdmin() {
                     {leads.map((l) => (
                       <tr key={l.id} className="align-top odd:bg-paper/40">
                         <td className="mono whitespace-nowrap px-4 py-3 text-[11.5px] text-ink/60">{new Date(l.createdAt).toLocaleString()}</td>
-                        <td className="px-4 py-3 font-semibold">{l.name}</td>
+                        <td className="px-4 py-3 font-semibold">
+                          {l.name}
+                          {l.spam && <span className="mono mt-1 block w-fit rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-normal text-red-700">possible spam</span>}
+                        </td>
                         <td className="px-4 py-3">{l.company}</td>
                         <td className="px-4 py-3">
                           {l.email && (
