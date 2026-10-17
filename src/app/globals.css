@@ -19,7 +19,7 @@
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-hangar: var(--hangar);
-  --font-sans: var(--font-archivo);
+  --font-sans: var(--font-archivo), var(--font-cyrillic), var(--font-arabic);
   --font-mono: var(--font-mono);
 }
 
@@ -32,7 +32,7 @@ html {
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-family: var(--font-archivo), var(--font-cyrillic), var(--font-arabic), system-ui, sans-serif;
   overflow-x: clip;
 }
 
@@ -49,7 +49,7 @@ html.lenis body {
 
 /* Wide display type, à la editorial aviation sites */
 .display {
-  font-family: var(--font-archivo);
+  font-family: var(--font-archivo), var(--font-cyrillic), var(--font-arabic);
   font-stretch: 125%;
   font-weight: 500;
   letter-spacing: -0.035em;
@@ -61,12 +61,12 @@ html.lenis body {
 }
 
 .mono {
-  font-family: var(--font-mono), ui-monospace, monospace;
+  font-family: var(--font-mono), var(--font-arabic), ui-monospace, monospace;
   letter-spacing: 0.02em;
 }
 
 .eyebrow {
-  font-family: var(--font-mono), ui-monospace, monospace;
+  font-family: var(--font-mono), var(--font-arabic), ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -156,4 +156,22 @@ html.lenis body {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* Arabic: joined script — no tracking, no forced caps, slightly roomier lines */
+html[lang="ar"] .display,
+html[lang="ar"] .eyebrow,
+html[lang="ar"] .mono {
+  letter-spacing: 0;
+}
+html[lang="ar"] .display {
+  line-height: 1.15;
+  font-weight: 600;
+}
+html[lang="ar"] .eyebrow {
+  font-size: 12px;
+}
+/* Cyrillic headlines: Inter has no width axis, tighten slightly */
+html[lang="ru"] .display {
+  letter-spacing: -0.04em;
 }

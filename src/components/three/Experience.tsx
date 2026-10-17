@@ -12,6 +12,7 @@ import { DIMENSIONS } from "./model";
 import { rig, smooth, easeInOut } from "@/lib/rig";
 import { useUI } from "@/lib/store";
 import { audio } from "@/lib/audio";
+import { takeOff } from "@/lib/takeoff";
 import { SYSTEMS, type Anchor, type SystemId } from "@/data/parts";
 
 const V3 = THREE.Vector3;
@@ -182,6 +183,7 @@ function Scene({ air, mobile }: { air: AirlinerRig; mobile: boolean }) {
   const prevMode = useRef<"scan" | "explode" | "systems">("scan");
   const flightPrev = useRef(0);
   const framesDrawn = useRef(0);
+  const hangarHover = useRef(false);
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
   const ground = useMemo(() => new THREE.Plane(new V3(0, 1, 0), 0), []);
   const trail = useMemo(() => ({ last: new V3(0, 0, -999), hit: new V3(), ndc: new THREE.Vector2(), lastPointer: "" }), []);
@@ -197,8 +199,19 @@ function Scene({ air, mobile }: { air: AirlinerRig; mobile: boolean }) {
     };
     const leave = () => (rig.pointer.inside = false);
     // In the systems tour, clicking a highlighted part opens its parts panel.
+    const hitsAircraft = (cx: number, cy: number) => {
+      const ndc = new THREE.Vector2((cx / window.innerWidth) * 2 - 1, -(cy / window.innerHeight) * 2 + 1);
+      const rc = new THREE.Raycaster();
+      rc.setFromCamera(ndc, camera);
+      return rc.intersectObjects(air.pickables, false).some((h) => ((h.object as THREE.Mesh).material as THREE.Material).visible);
+    };
     const click = (e: MouseEvent) => {
       const ui = useUI.getState();
+      // In the hangar: click / tap the aircraft to play the take-off.
+      if (!ui.exploded && ui.entered && rig.sky < 0.02 && !(e.target as HTMLElement).closest("a, button, input, aside")) {
+        if (hitsAircraft(e.clientX, e.clientY)) takeOff();
+        return;
+      }
       if (ui.exploded || rig.systems <= 0 || rig.catalog > 0.5 || !ui.hovered) return;
       if ((e.target as HTMLElement).closest("a, button, input, aside")) return;
       ui.set({ selected: ui.hovered });
@@ -213,7 +226,7 @@ function Scene({ air, mobile }: { air: AirlinerRig; mobile: boolean }) {
       window.removeEventListener("pointerdown", move);
       document.documentElement.removeEventListener("pointerleave", leave);
     };
-  }, []);
+  }, [camera, air]);
 
   useFrame((state, rawDt) => {
     const dt = Math.min(rawDt, 0.05);
@@ -317,6 +330,21 @@ function Scene({ air, mobile }: { air: AirlinerRig; mobile: boolean }) {
       }
     } else if (!canHover && ui.hovered) {
       ui.set({ hovered: null });
+      document.body.style.cursor = "";
+    }
+    // hangar: pointer cursor over the aircraft (it is clickable to take off)
+    const hangarHot = mode === "scan" && ui.entered && rig.sky < 0.02;
+    if (hangarHot && rig.pointer.inside && pointerKey !== trail.lastPointer) {
+      trail.lastPointer = pointerKey;
+      trail.ndc.set(rig.pointer.x, rig.pointer.y);
+      raycaster.setFromCamera(trail.ndc, camera);
+      const over = raycaster.intersectObjects(air.pickables, false).length > 0;
+      if (over !== hangarHover.current) {
+        hangarHover.current = over;
+        document.body.style.cursor = over ? "pointer" : "";
+      }
+    } else if (!hangarHot && hangarHover.current) {
+      hangarHover.current = false;
       document.body.style.cursor = "";
     }
 

@@ -6,13 +6,15 @@ import { gsap } from "@/lib/scroll";
 import { rig } from "@/lib/rig";
 import { useUI } from "@/lib/store";
 import { reassembleAircraft } from "@/lib/explode";
-import { ANCHOR_LABELS, PARTS, partsByAnchor, systemById, type Anchor } from "@/data/parts";
+import { ANCHOR_LABELS, PARTS, partsByAnchor, type Anchor } from "@/data/parts";
 import { PartRow } from "@/components/PartCard";
+import { useT } from "@/i18n/client";
 
 const ANCHORS = (Object.keys(ANCHOR_LABELS) as Anchor[]).filter((a) => partsByAnchor(a).length > 0);
 
 /** UI over the exploded aircraft: orbit, hover label, group list, reassemble. */
 export function ExplodeOverlay() {
+  const tr = useT();
   const exploded = useUI((s) => s.exploded);
   const hovered = useUI((s) => s.hovered);
   const selected = useUI((s) => s.selected);
@@ -69,9 +71,9 @@ export function ExplodeOverlay() {
       />
 
       <div className="pointer-events-none absolute left-4 top-6 md:left-10 md:top-8">
-        <div className="eyebrow text-ink/60">Exploded view · {PARTS.length} parts</div>
-        <div className="display mt-2 text-[clamp(30px,3.6vw,56px)]">Every part, in the air.</div>
-        <div className="mono mt-3 text-[11px] text-ink/55">Drag to orbit · scroll to zoom · click a part</div>
+        <div className="eyebrow text-ink/60">{tr.t("ex.eyebrow", { n: PARTS.length })}</div>
+        <div className="display mt-2 text-[clamp(30px,3.6vw,56px)]">{tr.t("ex.title")}</div>
+        <div className="mono mt-3 text-[11px] text-ink/55">{tr.t("ex.hint")}</div>
       </div>
 
       <ul className="no-scrollbar absolute bottom-28 left-4 top-48 hidden w-[250px] overflow-y-auto pr-2 md:left-10 md:block">
@@ -85,7 +87,7 @@ export function ExplodeOverlay() {
                 selected === a || hovered === a ? "bg-ink text-paper-2" : "hover:bg-ink/5"
               }`}
             >
-              <span>{ANCHOR_LABELS[a]}</span>
+              <span>{tr.anchor(a)}</span>
               <span className="mono text-[10.5px] opacity-60">{partsByAnchor(a).length}</span>
             </button>
           </li>
@@ -94,7 +96,7 @@ export function ExplodeOverlay() {
 
       <div className="absolute inset-x-0 bottom-8 flex justify-center">
         <button onClick={reassembleAircraft} className="btn btn-dark">
-          Reassemble
+          {tr.t("ex.reassemble")}
           <span className="grid h-6 w-6 place-items-center rounded-full bg-white/15 text-[12px]">↺</span>
         </button>
       </div>
@@ -105,9 +107,10 @@ export function ExplodeOverlay() {
 /** Slide-in panel listing the parts of one aircraft area. */
 export function AnchorPanel() {
   const selected = useUI((s) => s.selected);
+  const tr = useT();
   const set = useUI((s) => s.set);
   const parts = selected ? partsByAnchor(selected) : [];
-  const systems = Array.from(new Set(parts.map((p) => systemById(p.system).name)));
+  const systems = Array.from(new Set(parts.map((p) => tr.system(p.system).name)));
 
   return (
     <aside
@@ -119,10 +122,10 @@ export function AnchorPanel() {
       <div className="flex items-start justify-between gap-4 p-6 pb-4">
         <div>
           <div className="eyebrow text-ink/55">{systems.join(" · ")}</div>
-          <h3 className="wide mt-2 text-[26px] font-semibold leading-tight">{selected ? ANCHOR_LABELS[selected] : ""}</h3>
-          <div className="mono mt-2 text-[11px] text-ink/55">{parts.length} catalogued parts</div>
+          <h3 className="wide mt-2 text-[26px] font-semibold leading-tight">{selected ? tr.anchor(selected) : ""}</h3>
+          <div className="mono mt-2 text-[11px] text-ink/55">{tr.t("panel.count", { n: parts.length })}</div>
         </div>
-        <button onClick={() => set({ selected: null })} className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-ink/5 text-[18px] hover:bg-ink/10" aria-label="Close">
+        <button onClick={() => set({ selected: null })} className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-ink/5 text-[18px] hover:bg-ink/10" aria-label={tr.t("panel.close")}>
           ×
         </button>
       </div>
@@ -192,6 +195,7 @@ export function DimensionLabels() {
 
 /** Rich hover card: shows what a part of the aircraft is, wherever the 3D model is interactive. */
 export function HoverCard() {
+  const tr = useT();
   const hovered = useUI((s) => s.hovered);
   const selected = useUI((s) => s.selected);
   const exploded = useUI((s) => s.exploded);
@@ -219,7 +223,7 @@ export function HoverCard() {
   const a = shown;
   const parts = a ? partsByAnchor(a) : [];
   const hero = parts[0];
-  const systems = Array.from(new Set(parts.map((p) => systemById(p.system).name)));
+  const systems = Array.from(new Set(parts.map((p) => tr.system(p.system).name)));
 
   return (
     <div
@@ -233,21 +237,21 @@ export function HoverCard() {
           <div className="relative h-[150px] bg-[#ece2d4]">
             <Image src={hero.image} alt="" fill sizes="300px" className="object-cover" />
             <span className="mono absolute left-3 top-3 rounded-full bg-white/75 px-2 py-0.5 text-[10px] text-ink/70">{hero.ata}</span>
-            <span className="mono absolute right-3 top-3 rounded-full bg-ink px-2 py-0.5 text-[10px] text-paper-2">{parts.length} parts</span>
+            <span className="mono absolute right-3 top-3 rounded-full bg-ink px-2 py-0.5 text-[10px] text-paper-2">{tr.t("hover.parts", { n: parts.length })}</span>
           </div>
           <div className="p-4">
             <div className="eyebrow text-[10px] text-ink/50">{systems.join(" · ")}</div>
-            <div className="wide mt-1.5 text-[19px] font-semibold leading-tight">{ANCHOR_LABELS[a]}</div>
-            <p className="mt-2 line-clamp-2 text-[13px] leading-snug text-ink/65">{hero.description}</p>
+            <div className="wide mt-1.5 text-[19px] font-semibold leading-tight">{tr.anchor(a)}</div>
+            <p className="mt-2 line-clamp-2 text-[13px] leading-snug text-ink/65">{tr.part(hero).description}</p>
             <ul className="mt-3 space-y-1 border-t border-ink/10 pt-3">
               {parts.slice(0, 3).map((p) => (
                 <li key={p.id} className="flex items-center justify-between gap-3 text-[12.5px]">
-                  <span className="truncate font-medium">{p.name}</span>
-                  <span className="mono shrink-0 text-[10px] text-ink/50">{p.category}</span>
+                  <span className="truncate font-medium">{tr.part(p).name}</span>
+                  <span className="mono shrink-0 text-[10px] text-ink/50">{tr.category(p.category).name}</span>
                 </li>
               ))}
             </ul>
-            <div className="mono mt-3 text-[10.5px] text-accent">Click to open all parts →</div>
+            <div className="mono mt-3 text-[10.5px] text-accent">{tr.t("hover.open")}</div>
           </div>
         </>
       )}

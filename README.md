@@ -1,6 +1,6 @@
-# AirFromnerza — Wholesale & Retail Aircraft Spare Parts
+# I ARCH TECH — Wholesale & Retail Aircraft Spare Parts
 
-Website for **FROMNERZA Wholesale Retail Trading LTD**: a cinematic, interactive showcase of narrow-body airliner spare parts, supplied wholesale and retail.
+Website for **I Arch Tech Company**: a cinematic, interactive showcase of narrow-body airliner spare parts, supplied wholesale and retail.
 
 - Hangar intro → flight above the clouds → "Every part / in place"
 - Aircraft redrawn as a technical drawing, with an x-ray brush on hover

@@ -1,0 +1,934 @@
+{
+  "ui": {
+    "brand.company": "I Arch Tech Company",
+    "brand.tagline": "Wholesale & retail aircraft spare parts",
+    "brand.sub": "Wholesale · Retail spare parts",
+    "nav.aircraft": "Aircraft",
+    "nav.explode": "Explode",
+    "nav.systems": "Systems",
+    "nav.catalog": "Catalog",
+    "header.count": "{n} parts · demo catalog",
+    "sound.on": "Sound on",
+    "sound.off": "Sound off",
+    "lang.label": "Language",
+    "gate.status1": "Loading airframe geometry",
+    "gate.status2": "Lofting wing sections",
+    "gate.status3": "Mapping {parts} parts to {systems} systems",
+    "gate.status4": "Calibrating hangar lights",
+    "gate.status5": "Ready for pushback",
+    "gate.enterSound": "Enter with sound",
+    "gate.enterSilent": "Enter silently",
+    "hangar.body": "Spare parts for airline fleets, supplied wholesale and retail. {parts} parts across {systems} aircraft systems, from the hangar floor to the last O-ring.",
+    "hangar.scroll": "Scroll to take off",
+    "hangar.tap": "Tap the aircraft to take off",
+    "hangar.cue": "Scroll or tap the aircraft",
+    "sky.l1eyebrow": "Gear up · flaps up",
+    "sky.l1": "Lift off.",
+    "sky.l2eyebrow": "Flight level 370",
+    "sky.l2": "Above the clouds, every component has a place.",
+    "title.left": "Every part",
+    "title.right": "in place",
+    "title.sub": "Mapped to where it lives on the aircraft",
+    "title.meta1": "Narrow-body",
+    "title.meta2": "Twin turbofan",
+    "title.body": "A generic single-aisle airliner stands in as the reference airframe. When the fleet type is confirmed, the catalog and model follow it.",
+    "title.cta": "Inspect the airframe",
+    "bp.eyebrow": "Reference airframe",
+    "bp.title": "Narrow-body",
+    "bp.rightEyebrow": "Single aisle · twin engine",
+    "bp.rightBody": "Every area of the drawing links to catalogued spare parts. Hover to see what sits beneath the skin.",
+    "bp.stat.parts": "Parts catalogued",
+    "bp.stat.systems": "Aircraft systems",
+    "bp.stat.ata": "ATA chapters",
+    "bp.stat.categories": "Part categories",
+    "bp.stat.length": "Overall length",
+    "bp.stat.span": "Wingspan",
+    "bp.converting": "Converting to technical drawing — {p}%",
+    "bp.hintHover": "Hover the drawing to x-ray it",
+    "bp.hintTouch": "Drag over the drawing to x-ray it",
+    "bp.explore": "Explore parts",
+    "ex.eyebrow": "Exploded view · {n} parts",
+    "ex.title": "Every part, in the air.",
+    "ex.hint": "Drag to orbit · scroll to zoom · click a part",
+    "ex.reassemble": "Reassemble",
+    "panel.count": "{n} catalogued parts",
+    "panel.close": "Close",
+    "hover.parts": "{n} parts",
+    "hover.open": "Click to open all parts →",
+    "sys.tour": "Systems tour — {n} chapters",
+    "sys.all": "See all {n} parts in the catalog →",
+    "cat.eyebrow": "Parts catalog",
+    "cat.title": "The catalog",
+    "cat.intro": "Every part is supplied wholesale for fleets or retail as single units. Search by name, ATA chapter or demo part number, filter by system or category, and open any part for its full sheet.",
+    "cat.search": "Search parts, e.g. “brake”, “ATA 32”, “DEMO-29”",
+    "cat.clear": "Clear search",
+    "cat.allCategories": "All categories",
+    "cat.allSystems": "All systems",
+    "cat.count": "{n} of {total} parts",
+    "cat.demoNote": "Demo data · part numbers are placeholders",
+    "cat.empty": "No parts match. Try another word or clear the filters.",
+    "footer.disclaimer": "Demonstration catalog for a generic narrow-body airliner. Part numbers (DEMO-xx-xxx) are placeholders. Real part numbers, compatibility and availability are to be confirmed by the supplier against the aircraft IPC.",
+    "part.back": "← Back to explorer",
+    "part.number": "Part number",
+    "part.demoNote": "Demo ID · to be confirmed by supplier",
+    "part.ata": "ATA chapter",
+    "part.system": "System",
+    "part.category": "Category",
+    "part.location": "Location",
+    "part.area": "Aircraft area",
+    "part.compatible": "Compatible aircraft",
+    "part.compatibleValue": "Narrow-body twin (fleet type TBC)",
+    "part.supply": "Supply",
+    "part.supplyValue": "Wholesale (fleet quantities) and retail (single units)",
+    "part.datasheet": "Datasheet",
+    "part.datasheetValue": "Available on request",
+    "part.illustrative": "Illustrative image",
+    "part.whereItSits": "Where it sits",
+    "part.loading": "Loading aircraft…",
+    "part.more": "More from {system}",
+    "part.prev": "← Previous",
+    "part.next": "Next →"
+  },
+  "systems": {
+    "engines": {
+      "name": "Engines & Nacelles",
+      "tagline": "Thrust, start, oil and exhaust.",
+      "description": "High-bypass turbofans in under-wing nacelles: fan, core, gearbox accessories, ignition, start and oil systems."
+    },
+    "apu": {
+      "name": "Auxiliary Power Unit",
+      "tagline": "Power on the ground.",
+      "description": "Small gas turbine in the tail cone supplying electrical power and bleed air for engine start and air conditioning."
+    },
+    "landing-gear": {
+      "name": "Landing Gear, Wheels & Brakes",
+      "tagline": "Every landing ends here.",
+      "description": "Nose and main gear legs, retraction, steering, wheels, tyres and carbon brakes with anti-skid."
+    },
+    "flight-controls": {
+      "name": "Flight Controls",
+      "tagline": "Pitch, roll, yaw and lift.",
+      "description": "Primary and secondary control surfaces with their actuators, sensors and computers."
+    },
+    "hydraulics": {
+      "name": "Hydraulic Power",
+      "tagline": "The muscle behind the surfaces.",
+      "description": "Engine- and electrically-driven pumps, reservoirs, accumulators and filtration for three independent systems."
+    },
+    "fuel": {
+      "name": "Fuel System",
+      "tagline": "Stored, measured, delivered.",
+      "description": "Wing and centre tanks, boost pumps, valves, quantity probes and the refuel panel."
+    },
+    "electrical": {
+      "name": "Electrical Power",
+      "tagline": "AC, DC and backup.",
+      "description": "Generators, transformer-rectifiers, batteries, contactors and distribution panels."
+    },
+    "avionics": {
+      "name": "Avionics & Navigation",
+      "tagline": "Sense, compute, communicate.",
+      "description": "Displays, flight computers, radios, navigation sensors and the probes that feed them."
+    },
+    "lighting": {
+      "name": "Lighting",
+      "tagline": "Seen and seeing.",
+      "description": "Exterior navigation, strobe, beacon, landing and taxi lights, plus cabin and emergency lighting."
+    },
+    "air-conditioning": {
+      "name": "Air Conditioning & Pneumatics",
+      "tagline": "Air you can breathe at 37,000 ft.",
+      "description": "Air-conditioning packs, pressurisation control, bleed air valves and cabin air recirculation."
+    },
+    "cabin": {
+      "name": "Cabin & Interior",
+      "tagline": "Where passengers notice everything.",
+      "description": "Seats, galleys, lavatories, oxygen, water and waste systems, and cabin furnishings."
+    },
+    "doors-windows": {
+      "name": "Doors & Windows",
+      "tagline": "Sealed, pressurised, certified.",
+      "description": "Passenger, service, cargo and emergency exits, cockpit windshields and cabin windows."
+    },
+    "protection": {
+      "name": "Fire, Ice & Rain Protection",
+      "tagline": "Detect, suppress, keep clear.",
+      "description": "Fire detection and extinguishing, wing and engine anti-ice, probe heating and windshield rain removal."
+    },
+    "consumables": {
+      "name": "Filters & Consumables",
+      "tagline": "Small parts, every check.",
+      "description": "Filters, seals, fluids, lamps and hardware replaced at routine maintenance checks."
+    }
+  },
+  "anchors": {
+    "engine": "Engine & nacelle",
+    "pylon": "Engine pylon",
+    "apu": "Auxiliary power unit",
+    "nose-gear": "Nose landing gear",
+    "main-gear": "Main landing gear",
+    "wing": "Wing",
+    "slats": "Leading-edge slats",
+    "flaps": "Trailing-edge flaps",
+    "aileron": "Ailerons",
+    "spoilers": "Spoilers",
+    "hstab": "Horizontal stabiliser",
+    "elevator": "Elevators",
+    "vstab": "Vertical fin",
+    "rudder": "Rudder",
+    "fuel": "Fuel tanks",
+    "hydraulic": "Hydraulic bay",
+    "electrical": "Electrical power centre",
+    "avionics": "Avionics bay",
+    "cockpit": "Flight deck",
+    "radome": "Radome & weather radar",
+    "probes": "Air-data probes",
+    "lights": "Exterior lights",
+    "packs": "Air-conditioning packs",
+    "cabin": "Passenger cabin",
+    "galley": "Galleys & lavatories",
+    "doors": "Doors & exits",
+    "windows": "Cabin windows",
+    "fuselage": "Fuselage & structure"
+  },
+  "categories": {
+    "Rotable": {
+      "name": "Rotable",
+      "info": "Serialised component that is overhauled and returned to stock. Usually supplied on exchange with a certificate (EASA Form 1 / FAA 8130-3)."
+    },
+    "Repairable": {
+      "name": "Repairable",
+      "info": "Component that can be repaired a limited number of times before it is scrapped."
+    },
+    "Expendable": {
+      "name": "Expendable",
+      "info": "Low-cost hardware replaced rather than repaired."
+    },
+    "Consumable": {
+      "name": "Consumable",
+      "info": "Used up in service: fluids, filters, seals, lamps and similar."
+    }
+  },
+  "parts": {
+    "fan-blade-set": {
+      "name": "Fan Blade Set",
+      "description": "Wide-chord titanium or composite fan blades producing most of the engine's thrust. Inspected for erosion and impact damage.",
+      "location": "Engine inlet, fan stage"
+    },
+    "spinner-cone": {
+      "name": "Spinner Cone",
+      "description": "Aerodynamic nose cone over the fan hub that guides airflow and sheds ice.",
+      "location": "Engine inlet, fan hub"
+    },
+    "engine-inlet-cowl": {
+      "name": "Engine Inlet Cowl",
+      "description": "Leading section of the nacelle that delivers smooth airflow to the fan, with anti-ice ducting.",
+      "location": "Nacelle, forward"
+    },
+    "fan-cowl-door": {
+      "name": "Fan Cowl Door",
+      "description": "Hinged cowl panels giving access to the fan case and accessory gearbox.",
+      "location": "Nacelle, sides"
+    },
+    "thrust-reverser-actuator": {
+      "name": "Thrust Reverser Actuator",
+      "description": "Hydraulic or electric actuator that deploys the reverser sleeve to slow the aircraft after touchdown.",
+      "location": "Thrust reverser, aft nacelle"
+    },
+    "fuel-metering-unit": {
+      "name": "Fuel Metering Unit",
+      "description": "Meters fuel flow to the combustor on command of the engine control computer.",
+      "location": "Accessory gearbox"
+    },
+    "engine-control-unit-fadec": {
+      "name": "Engine Control Unit (FADEC)",
+      "description": "Dual-channel full-authority digital engine control that manages thrust, start and limits.",
+      "location": "Fan case"
+    },
+    "ignition-exciter": {
+      "name": "Ignition Exciter",
+      "description": "High-energy unit that powers the igniter plugs during start and in-flight relight.",
+      "location": "Core case"
+    },
+    "igniter-plug": {
+      "name": "Igniter Plug",
+      "description": "Spark plug that lights the fuel-air mixture in the combustor. Replaced at set intervals.",
+      "location": "Combustion chamber"
+    },
+    "pneumatic-starter": {
+      "name": "Pneumatic Starter",
+      "description": "Air turbine starter that spins the engine core using APU or ground bleed air.",
+      "location": "Accessory gearbox"
+    },
+    "starter-air-valve": {
+      "name": "Starter Air Valve",
+      "description": "Controls the flow of start air to the pneumatic starter.",
+      "location": "Core cowl area"
+    },
+    "oil-pump-assembly": {
+      "name": "Oil Pump Assembly",
+      "description": "Pressure and scavenge pump unit that circulates oil through bearings and gearboxes.",
+      "location": "Accessory gearbox"
+    },
+    "oil-quantity-transmitter": {
+      "name": "Oil Quantity Transmitter",
+      "description": "Sensor that reports engine oil level to the cockpit displays.",
+      "location": "Oil tank"
+    },
+    "exhaust-nozzle-and-plug": {
+      "name": "Exhaust Nozzle & Plug",
+      "description": "Shapes the core exhaust stream for efficient thrust and lower noise.",
+      "location": "Engine exhaust"
+    },
+    "engine-pylon-fairing": {
+      "name": "Engine Pylon Fairing",
+      "description": "Aerodynamic fairing over the strut that attaches the engine to the wing.",
+      "location": "Wing-to-engine pylon"
+    },
+    "apu-power-section": {
+      "name": "APU Power Section",
+      "description": "Gas-turbine core of the APU that drives the generator and supplies bleed air.",
+      "location": "Tail cone"
+    },
+    "apu-starter-motor": {
+      "name": "APU Starter Motor",
+      "description": "DC electric motor that spins the APU up to self-sustaining speed.",
+      "location": "Tail cone, APU gearbox"
+    },
+    "apu-generator": {
+      "name": "APU Generator",
+      "description": "AC generator providing aircraft electrical power on the ground and as a backup in flight.",
+      "location": "Tail cone, APU gearbox"
+    },
+    "apu-electronic-control-box": {
+      "name": "APU Electronic Control Box",
+      "description": "Controls APU start, speed, temperature and protective shutdowns.",
+      "location": "Aft cargo / tail area"
+    },
+    "apu-air-inlet-door-actuator": {
+      "name": "APU Air Inlet Door Actuator",
+      "description": "Opens and closes the APU air inlet flap.",
+      "location": "Tail cone, inlet"
+    },
+    "apu-fuel-control-unit": {
+      "name": "APU Fuel Control Unit",
+      "description": "Schedules fuel flow to the APU combustor.",
+      "location": "APU accessory section"
+    },
+    "apu-exhaust-muffler": {
+      "name": "APU Exhaust Muffler",
+      "description": "Ducts and silences APU exhaust gas out of the tail.",
+      "location": "Tail cone, exhaust"
+    },
+    "main-landing-gear-shock-strut": {
+      "name": "Main Landing Gear Shock Strut",
+      "description": "Oleo-pneumatic leg that absorbs landing loads and supports the aircraft on the ground.",
+      "location": "Main gear bay"
+    },
+    "nose-landing-gear-shock-strut": {
+      "name": "Nose Landing Gear Shock Strut",
+      "description": "Oleo strut carrying the nose wheels, with integrated steering collar.",
+      "location": "Nose gear bay"
+    },
+    "main-wheel-assembly": {
+      "name": "Main Wheel Assembly",
+      "description": "Forged aluminium wheel with bearings and fusible plugs that release pressure if overheated.",
+      "location": "Main gear axle"
+    },
+    "nose-wheel-assembly": {
+      "name": "Nose Wheel Assembly",
+      "description": "Twin nose wheels supporting steering and nose loads.",
+      "location": "Nose gear axle"
+    },
+    "main-tyre": {
+      "name": "Main Tyre",
+      "description": "Radial or bias aircraft tyre inflated with nitrogen. Replaced or retreaded on wear limits.",
+      "location": "Main gear wheels"
+    },
+    "nose-tyre": {
+      "name": "Nose Tyre",
+      "description": "Chined nose tyre that deflects runway water away from the engines.",
+      "location": "Nose gear wheels"
+    },
+    "carbon-brake-assembly": {
+      "name": "Carbon Brake Assembly",
+      "description": "Multi-disc carbon heat-sink brake with wear indicator pins.",
+      "location": "Main gear wheels"
+    },
+    "anti-skid-transducer": {
+      "name": "Anti-Skid Transducer",
+      "description": "Wheel-speed sensor that lets the anti-skid system prevent wheel lock-up.",
+      "location": "Main wheel axle"
+    },
+    "brake-control-valve": {
+      "name": "Brake Control Valve",
+      "description": "Meters hydraulic pressure to the brakes on pedal or autobrake command.",
+      "location": "Main gear bay"
+    },
+    "retraction-actuator": {
+      "name": "Retraction Actuator",
+      "description": "Hydraulic actuator that raises and lowers the gear leg.",
+      "location": "Main gear bay"
+    },
+    "nose-wheel-steering-actuator": {
+      "name": "Nose Wheel Steering Actuator",
+      "description": "Turns the nose wheels for ground steering via tiller and rudder pedals.",
+      "location": "Nose gear leg"
+    },
+    "gear-uplock-assembly": {
+      "name": "Gear Uplock Assembly",
+      "description": "Mechanical lock that holds the gear up in flight.",
+      "location": "Main gear bay"
+    },
+    "torque-link-assembly": {
+      "name": "Torque Link Assembly",
+      "description": "Scissor links that stop the inner cylinder rotating and transmit steering.",
+      "location": "Gear leg"
+    },
+    "aileron-servo-actuator": {
+      "name": "Aileron Servo Actuator",
+      "description": "Hydraulic actuator that moves the aileron for roll control.",
+      "location": "Outboard wing, trailing edge"
+    },
+    "elevator-servo-actuator": {
+      "name": "Elevator Servo Actuator",
+      "description": "Drives the elevator for pitch control.",
+      "location": "Horizontal stabiliser"
+    },
+    "rudder-power-control-unit": {
+      "name": "Rudder Power Control Unit",
+      "description": "Hydraulic unit that drives the rudder for yaw control.",
+      "location": "Vertical fin"
+    },
+    "trimmable-horizontal-stabiliser-actuator": {
+      "name": "Trimmable Horizontal Stabiliser Actuator",
+      "description": "Screw-jack that trims the entire horizontal stabiliser.",
+      "location": "Tail cone, stabiliser hinge"
+    },
+    "flap-actuator": {
+      "name": "Flap Actuator",
+      "description": "Ball-screw actuator that extends the trailing-edge flaps.",
+      "location": "Wing trailing edge"
+    },
+    "slat-actuator": {
+      "name": "Slat Actuator",
+      "description": "Rotary actuator driving the leading-edge slats.",
+      "location": "Wing leading edge"
+    },
+    "spoiler-actuator": {
+      "name": "Spoiler Actuator",
+      "description": "Raises the spoiler panels for roll assist, speed brake and ground lift dump.",
+      "location": "Upper wing surface"
+    },
+    "flap-track-fairing": {
+      "name": "Flap Track Fairing",
+      "description": "Streamlined fairing over the flap support track ('canoe').",
+      "location": "Under wing"
+    },
+    "flight-control-computer": {
+      "name": "Flight Control Computer",
+      "description": "Computes surface commands from pilot inputs and protections.",
+      "location": "Avionics bay"
+    },
+    "control-surface-position-sensor": {
+      "name": "Control Surface Position Sensor",
+      "description": "Reports actual surface position back to the flight control computers.",
+      "location": "At each control surface"
+    },
+    "static-discharger-wick": {
+      "name": "Static Discharger (Wick)",
+      "description": "Bleeds static charge into the air to reduce radio interference.",
+      "location": "Trailing edges and tips"
+    },
+    "engine-driven-hydraulic-pump": {
+      "name": "Engine-Driven Hydraulic Pump",
+      "description": "Variable-displacement pump supplying main system pressure.",
+      "location": "Engine accessory gearbox"
+    },
+    "electric-motor-driven-pump": {
+      "name": "Electric Motor-Driven Pump",
+      "description": "Electric pump for backup pressure and ground operation.",
+      "location": "Main gear bay"
+    },
+    "power-transfer-unit": {
+      "name": "Power Transfer Unit",
+      "description": "Transfers hydraulic power between systems without mixing fluid.",
+      "location": "Main gear bay"
+    },
+    "hydraulic-reservoir": {
+      "name": "Hydraulic Reservoir",
+      "description": "Pressurised tank storing fluid for each hydraulic system.",
+      "location": "Main gear bay"
+    },
+    "hydraulic-accumulator": {
+      "name": "Hydraulic Accumulator",
+      "description": "Nitrogen-charged unit that dampens pressure surges and stores reserve energy.",
+      "location": "Main gear bay"
+    },
+    "ram-air-turbine-rat": {
+      "name": "Ram Air Turbine (RAT)",
+      "description": "Emergency wind-driven turbine that supplies hydraulic and electrical power.",
+      "location": "Wing-to-body fairing"
+    },
+    "hydraulic-pressure-transmitter": {
+      "name": "Hydraulic Pressure Transmitter",
+      "description": "Sends system pressure readings to the cockpit.",
+      "location": "Hydraulic manifolds"
+    },
+    "priority-valve": {
+      "name": "Priority Valve",
+      "description": "Keeps pressure to flight controls when demand is high.",
+      "location": "Hydraulic manifolds"
+    },
+    "fuel-boost-pump": {
+      "name": "Fuel Boost Pump",
+      "description": "Submerged electric pump supplying pressurised fuel to the engines.",
+      "location": "Wing tanks"
+    },
+    "fuel-quantity-probe": {
+      "name": "Fuel Quantity Probe",
+      "description": "Capacitance probe that measures fuel height for the gauging system.",
+      "location": "Inside fuel tanks"
+    },
+    "fuel-shut-off-valve-lp-valve": {
+      "name": "Fuel Shut-Off Valve (LP Valve)",
+      "description": "Motorised valve isolating fuel to the engine in an emergency.",
+      "location": "Wing, engine feed line"
+    },
+    "crossfeed-valve": {
+      "name": "Crossfeed Valve",
+      "description": "Lets either tank feed either engine to balance fuel.",
+      "location": "Centre wing box"
+    },
+    "refuel-control-panel": {
+      "name": "Refuel Control Panel",
+      "description": "Panel for pressure refuelling and setting fuel loads.",
+      "location": "Under right wing"
+    },
+    "refuel-coupling": {
+      "name": "Refuel Coupling",
+      "description": "Standard pressure refuel nozzle adaptor.",
+      "location": "Under right wing"
+    },
+    "fuel-quantity-indicating-computer": {
+      "name": "Fuel Quantity Indicating Computer",
+      "description": "Processes probe signals into fuel quantity per tank.",
+      "location": "Avionics bay"
+    },
+    "water-drain-valve": {
+      "name": "Water Drain Valve",
+      "description": "Sump drain for removing water from fuel tanks.",
+      "location": "Tank low points"
+    },
+    "integrated-drive-generator": {
+      "name": "Integrated Drive Generator",
+      "description": "Constant-frequency AC generator driven by each engine.",
+      "location": "Engine accessory gearbox"
+    },
+    "generator-control-unit": {
+      "name": "Generator Control Unit",
+      "description": "Regulates generator voltage and protects the electrical network.",
+      "location": "Avionics bay"
+    },
+    "transformer-rectifier-unit": {
+      "name": "Transformer Rectifier Unit",
+      "description": "Converts AC power to 28 V DC for aircraft systems.",
+      "location": "Avionics bay"
+    },
+    "main-aircraft-battery": {
+      "name": "Main Aircraft Battery",
+      "description": "Nickel-cadmium or lithium battery for APU start and emergency DC power.",
+      "location": "Avionics bay"
+    },
+    "static-inverter": {
+      "name": "Static Inverter",
+      "description": "Converts battery DC into AC for essential instruments.",
+      "location": "Avionics bay"
+    },
+    "power-contactor": {
+      "name": "Power Contactor",
+      "description": "Heavy-duty relay switching generator and bus connections.",
+      "location": "Electrical power centre"
+    },
+    "circuit-breaker-panel": {
+      "name": "Circuit Breaker Panel",
+      "description": "Protective breakers for each aircraft circuit.",
+      "location": "Cockpit overhead / aft"
+    },
+    "ground-power-receptacle": {
+      "name": "Ground Power Receptacle",
+      "description": "External socket for 115 V AC ground power.",
+      "location": "Nose, lower right"
+    },
+    "primary-flight-display": {
+      "name": "Primary Flight Display",
+      "description": "LCD display showing attitude, speed, altitude and heading.",
+      "location": "Flight deck panel"
+    },
+    "multi-function-display": {
+      "name": "Multi-Function Display",
+      "description": "Shows navigation, engine and system pages.",
+      "location": "Flight deck panel"
+    },
+    "flight-management-computer": {
+      "name": "Flight Management Computer",
+      "description": "Plans and flies the route, performance and fuel predictions.",
+      "location": "Avionics bay"
+    },
+    "air-data-inertial-reference-unit": {
+      "name": "Air Data Inertial Reference Unit",
+      "description": "Combines air data and laser-gyro inertial reference for attitude and position.",
+      "location": "Avionics bay"
+    },
+    "weather-radar-antenna": {
+      "name": "Weather Radar Antenna",
+      "description": "Scans ahead for precipitation and windshear.",
+      "location": "Nose radome"
+    },
+    "weather-radar-transceiver": {
+      "name": "Weather Radar Transceiver",
+      "description": "Transmitter/receiver for the weather radar system.",
+      "location": "Avionics bay"
+    },
+    "vhf-communication-transceiver": {
+      "name": "VHF Communication Transceiver",
+      "description": "Voice and datalink radio for air traffic control.",
+      "location": "Avionics bay"
+    },
+    "pitot-probe": {
+      "name": "Pitot Probe",
+      "description": "Heated probe that measures total pressure for airspeed.",
+      "location": "Forward fuselage"
+    },
+    "angle-of-attack-sensor": {
+      "name": "Angle-of-Attack Sensor",
+      "description": "Vane sensor measuring the wing's angle to the airflow.",
+      "location": "Forward fuselage"
+    },
+    "transponder": {
+      "name": "Transponder",
+      "description": "Replies to ATC and collision-avoidance interrogations.",
+      "location": "Avionics bay"
+    },
+    "radio-altimeter-antenna": {
+      "name": "Radio Altimeter Antenna",
+      "description": "Measures height above ground on approach.",
+      "location": "Lower fuselage"
+    },
+    "cockpit-voice-recorder": {
+      "name": "Cockpit Voice Recorder",
+      "description": "Crash-protected recorder of flight-deck audio.",
+      "location": "Aft fuselage"
+    },
+    "flight-data-recorder": {
+      "name": "Flight Data Recorder",
+      "description": "Crash-protected recorder of flight parameters.",
+      "location": "Aft fuselage"
+    },
+    "static-port": {
+      "name": "Static Port",
+      "description": "Flush ports sensing static pressure for altitude and speed.",
+      "location": "Forward fuselage sides"
+    },
+    "landing-light": {
+      "name": "Landing Light",
+      "description": "High-intensity light for approach and landing.",
+      "location": "Wing root / leading edge"
+    },
+    "taxi-and-turnoff-light": {
+      "name": "Taxi & Turnoff Light",
+      "description": "Lights the taxiway ahead and to the sides.",
+      "location": "Nose gear leg"
+    },
+    "navigation-light-red-green": {
+      "name": "Navigation Light (Red/Green)",
+      "description": "Position lights: red on the left, green on the right.",
+      "location": "Wing tips"
+    },
+    "anti-collision-strobe": {
+      "name": "Anti-Collision Strobe",
+      "description": "White high-intensity strobes for visibility.",
+      "location": "Wing tips and tail"
+    },
+    "beacon-light": {
+      "name": "Beacon Light",
+      "description": "Red rotating or flashing light showing engines are running.",
+      "location": "Upper and lower fuselage"
+    },
+    "logo-light": {
+      "name": "Logo Light",
+      "description": "Illuminates the tail fin at night.",
+      "location": "Horizontal stabiliser"
+    },
+    "cabin-led-light-strip": {
+      "name": "Cabin LED Light Strip",
+      "description": "Mood lighting strips along the cabin.",
+      "location": "Cabin ceiling / sidewall"
+    },
+    "emergency-exit-sign": {
+      "name": "Emergency Exit Sign",
+      "description": "Self-powered illuminated EXIT sign.",
+      "location": "Above each exit"
+    },
+    "floor-path-marking": {
+      "name": "Floor Path Marking",
+      "description": "Photoluminescent strip guiding passengers to exits.",
+      "location": "Cabin aisle floor"
+    },
+    "air-cycle-machine": {
+      "name": "Air Cycle Machine",
+      "description": "Turbine/compressor unit at the heart of each air-conditioning pack.",
+      "location": "Belly, under centre wing"
+    },
+    "pack-heat-exchanger": {
+      "name": "Pack Heat Exchanger",
+      "description": "Cools hot bleed air using ram air.",
+      "location": "Belly, under centre wing"
+    },
+    "pack-flow-control-valve": {
+      "name": "Pack Flow Control Valve",
+      "description": "Regulates bleed air flow into each pack.",
+      "location": "Pack bay"
+    },
+    "cabin-pressure-controller": {
+      "name": "Cabin Pressure Controller",
+      "description": "Schedules cabin altitude and rate of change.",
+      "location": "Avionics bay"
+    },
+    "outflow-valve": {
+      "name": "Outflow Valve",
+      "description": "Modulates air leaving the cabin to set pressurisation.",
+      "location": "Aft lower fuselage"
+    },
+    "recirculation-fan": {
+      "name": "Recirculation Fan",
+      "description": "Recirculates filtered cabin air to reduce bleed demand.",
+      "location": "Mixer unit area"
+    },
+    "trim-air-valve": {
+      "name": "Trim Air Valve",
+      "description": "Adds hot air to fine-tune zone temperatures.",
+      "location": "Mixer unit"
+    },
+    "bleed-air-valve": {
+      "name": "Bleed Air Valve",
+      "description": "Controls hot bleed air taken from the engine compressor.",
+      "location": "Engine pylon"
+    },
+    "pre-cooler": {
+      "name": "Pre-Cooler",
+      "description": "Heat exchanger cooling bleed air with fan air.",
+      "location": "Engine pylon"
+    },
+    "passenger-seat-assembly-economy": {
+      "name": "Passenger Seat Assembly (Economy)",
+      "description": "Triple seat with tray tables, life vest pouch and recline mechanism.",
+      "location": "Main cabin"
+    },
+    "seat-recline-actuator": {
+      "name": "Seat Recline Actuator",
+      "description": "Hydraulic lock that holds the seatback position.",
+      "location": "Under seat"
+    },
+    "seat-belt-assembly": {
+      "name": "Seat Belt Assembly",
+      "description": "Certified lap belt with metal buckle.",
+      "location": "Each seat"
+    },
+    "overhead-stowage-bin": {
+      "name": "Overhead Stowage Bin",
+      "description": "Overhead bin with latch and damper.",
+      "location": "Cabin ceiling"
+    },
+    "galley-coffee-maker": {
+      "name": "Galley Coffee Maker",
+      "description": "Plumbed beverage maker, galley insert.",
+      "location": "Forward / aft galley"
+    },
+    "galley-oven": {
+      "name": "Galley Oven",
+      "description": "Steam or convection oven for meal service.",
+      "location": "Forward / aft galley"
+    },
+    "lavatory-vacuum-toilet": {
+      "name": "Lavatory Vacuum Toilet",
+      "description": "Vacuum-flush toilet unit.",
+      "location": "Lavatory"
+    },
+    "potable-water-pump": {
+      "name": "Potable Water Pump",
+      "description": "Pressurises potable water to galleys and lavatories.",
+      "location": "Water service bay"
+    },
+    "passenger-oxygen-mask-unit": {
+      "name": "Passenger Oxygen Mask Unit",
+      "description": "Drop-down masks fed by chemical oxygen generators.",
+      "location": "Above each seat row"
+    },
+    "crew-oxygen-cylinder": {
+      "name": "Crew Oxygen Cylinder",
+      "description": "High-pressure oxygen for the flight crew.",
+      "location": "Forward cargo / avionics bay"
+    },
+    "life-vest": {
+      "name": "Life Vest",
+      "description": "Inflatable life jacket with light and whistle.",
+      "location": "Under each seat"
+    },
+    "passenger-door-seal": {
+      "name": "Passenger Door Seal",
+      "description": "Inflatable / lip seal keeping the door pressure-tight.",
+      "location": "Main entry doors"
+    },
+    "emergency-escape-slide": {
+      "name": "Emergency Escape Slide",
+      "description": "Inflatable evacuation slide packed into the door.",
+      "location": "Inside each main door"
+    },
+    "door-damper-actuator": {
+      "name": "Door Damper Actuator",
+      "description": "Controls door opening speed and powers emergency opening.",
+      "location": "Main entry doors"
+    },
+    "cargo-door-actuator": {
+      "name": "Cargo Door Actuator",
+      "description": "Opens and closes the lower cargo doors.",
+      "location": "Forward / aft cargo doors"
+    },
+    "overwing-exit-hatch-seal": {
+      "name": "Overwing Exit Hatch Seal",
+      "description": "Seal for the self-help overwing emergency exits.",
+      "location": "Overwing exits"
+    },
+    "cockpit-windshield": {
+      "name": "Cockpit Windshield",
+      "description": "Heated, multi-layer laminated glass windshield.",
+      "location": "Flight deck"
+    },
+    "cabin-window-pane": {
+      "name": "Cabin Window Pane",
+      "description": "Outer and inner acrylic panes with breather hole.",
+      "location": "Cabin sidewall"
+    },
+    "window-shade-assembly": {
+      "name": "Window Shade Assembly",
+      "description": "Manual pull-down window blind.",
+      "location": "Cabin sidewall"
+    },
+    "engine-fire-detector-loop": {
+      "name": "Engine Fire Detector Loop",
+      "description": "Continuous sensing element that detects fire and overheat.",
+      "location": "Engine nacelle"
+    },
+    "fire-extinguisher-bottle": {
+      "name": "Fire Extinguisher Bottle",
+      "description": "Halon / alternative agent bottle discharged into the engine.",
+      "location": "Engine pylon"
+    },
+    "cargo-smoke-detector": {
+      "name": "Cargo Smoke Detector",
+      "description": "Photo-electric detector for cargo hold smoke.",
+      "location": "Cargo compartment ceiling"
+    },
+    "portable-fire-extinguisher": {
+      "name": "Portable Fire Extinguisher",
+      "description": "Hand-held extinguisher for cabin fires.",
+      "location": "Cabin and flight deck"
+    },
+    "lavatory-smoke-detector": {
+      "name": "Lavatory Smoke Detector",
+      "description": "Detects smoke in lavatories.",
+      "location": "Lavatory ceiling"
+    },
+    "wing-anti-ice-valve": {
+      "name": "Wing Anti-Ice Valve",
+      "description": "Opens hot bleed air into the slat leading edges.",
+      "location": "Wing root"
+    },
+    "probe-heat-controller": {
+      "name": "Probe Heat Controller",
+      "description": "Powers and monitors heaters on pitot, AoA and temperature probes.",
+      "location": "Avionics bay"
+    },
+    "windshield-wiper-motor": {
+      "name": "Windshield Wiper Motor",
+      "description": "Drives the windshield wiper arms.",
+      "location": "Below windshield"
+    },
+    "engine-oil-filter": {
+      "name": "Engine Oil Filter",
+      "description": "Removes debris from engine oil. Checked for metal particles.",
+      "location": "Engine oil system"
+    },
+    "hydraulic-filter-element": {
+      "name": "Hydraulic Filter Element",
+      "description": "Pressure and return line filter elements.",
+      "location": "Hydraulic manifolds"
+    },
+    "fuel-filter-element": {
+      "name": "Fuel Filter Element",
+      "description": "Protects the fuel metering unit from contamination.",
+      "location": "Engine fuel system"
+    },
+    "cabin-hepa-filter": {
+      "name": "Cabin HEPA Filter",
+      "description": "Removes particles and microbes from recirculated air.",
+      "location": "Recirculation system"
+    },
+    "engine-turbine-oil-quart": {
+      "name": "Engine Turbine Oil (Quart)",
+      "description": "Synthetic turbine oil for servicing.",
+      "location": "Engine oil tank"
+    },
+    "phosphate-ester-hydraulic-fluid": {
+      "name": "Phosphate-Ester Hydraulic Fluid",
+      "description": "Fire-resistant fluid used in airliner hydraulic systems.",
+      "location": "Hydraulic reservoirs"
+    },
+    "o-ring-seal-kit": {
+      "name": "O-Ring Seal Kit",
+      "description": "Assorted aviation-grade elastomer seals.",
+      "location": "Various"
+    },
+    "safety-wire-and-cotter-pin-kit": {
+      "name": "Safety Wire & Cotter Pin Kit",
+      "description": "Locking hardware for fasteners.",
+      "location": "Various"
+    },
+    "navigation-lamp-replacement": {
+      "name": "Navigation Lamp Replacement",
+      "description": "Replacement LED module / lamp for position lights.",
+      "location": "Wing tips"
+    },
+    "wheel-bearing-grease": {
+      "name": "Wheel Bearing Grease",
+      "description": "High-temperature grease for wheel bearings.",
+      "location": "Wheel bearings"
+    },
+    "water-filter-cartridge": {
+      "name": "Water Filter Cartridge",
+      "description": "Point-of-use potable water filter.",
+      "location": "Galley water line"
+    },
+    "windshield-wiper-blade": {
+      "name": "Windshield Wiper Blade",
+      "description": "Replaceable rubber wiper blade and arm insert.",
+      "location": "Flight deck windshield"
+    },
+    "tyre-valve-core-kit": {
+      "name": "Tyre Valve Core Kit",
+      "description": "Valve cores and caps for nitrogen tyre servicing.",
+      "location": "Wheel inflation valves"
+    },
+    "polysulfide-sealant-cartridge": {
+      "name": "Polysulfide Sealant Cartridge",
+      "description": "Two-part sealant for fuel tanks, fasteners and fairings.",
+      "location": "Structure and fuel tanks"
+    },
+    "hi-lok-fastener-kit": {
+      "name": "Hi-Lok Fastener Kit",
+      "description": "Titanium pins and collars for structural repairs.",
+      "location": "Airframe structure"
+    }
+  }
+}

@@ -8,14 +8,9 @@ import { audio } from "@/lib/audio";
 import { planformPaths } from "./three/model";
 import { PARTS, SYSTEMS } from "@/data/parts";
 import { BRAND } from "@/lib/brand";
+import { LanguageSwitcher, useT } from "@/i18n/client";
 
-const STATUS = [
-  "Loading airframe geometry",
-  "Lofting wing sections",
-  `Mapping ${PARTS.length} parts to ${SYSTEMS.length} systems`,
-  "Calibrating hangar lights",
-  "Ready for pushback",
-];
+const STATUS_KEYS = ["gate.status1", "gate.status2", "gate.status3", "gate.status4", "gate.status5"] as const;
 const DOTS = 28;
 
 /**
@@ -27,6 +22,13 @@ export function Gate() {
   // already entered earlier in this visit (e.g. back from a part page)
   const [gone, setGone] = useState(() => useUI.getState().entered);
   const set = useUI((s) => s.set);
+  const tr = useT();
+  const trRef = useRef(tr);
+  useEffect(() => {
+    trRef.current = tr;
+  }, [tr]);
+  const statusText = (i: number) =>
+    trRef.current.t(STATUS_KEYS[Math.min(STATUS_KEYS.length - 1, i)], { parts: PARTS.length, systems: SYSTEMS.length });
   const paths = useMemo(() => planformPaths(), []);
 
   const root = useRef<HTMLDivElement>(null);
@@ -57,7 +59,7 @@ export function Gate() {
       p.v += (target - p.v) * (1 - Math.exp(-dt * 4.5));
       const v = target >= 1 && p.v > 0.97 ? 1 : p.v;
       if (counter.current) counter.current.textContent = String(Math.round(v * 100)).padStart(3, "0");
-      if (status.current) status.current.textContent = STATUS[Math.min(STATUS.length - 1, Math.floor(v * STATUS.length))];
+      if (status.current) status.current.textContent = statusText(Math.floor(v * STATUS_KEYS.length));
       svg.current?.querySelectorAll<SVGPathElement>("path[data-draw]").forEach((el, i) => {
         const local = Math.min(1, Math.max(0, (v - i * 0.035) / 0.55));
         el.style.strokeDashoffset = String(1 - local);
@@ -145,11 +147,12 @@ export function Gate() {
           <span key={c} className={`absolute h-5 w-5 border-white/30 ${c}`} />
         ))}
         <div className="mono absolute left-9 top-8 text-[10px] tracking-[0.18em] text-white/40">
-          AIRFROMNERZA / AIRCRAFT SPARE PARTS
+          I ARCH TECH / AIRCRAFT SPARE PARTS
           <br />
           DWG AF-NB-000 · REV A
         </div>
-        <div className="mono absolute right-9 top-8 text-right text-[10px] tracking-[0.18em] text-white/40">
+        <LanguageSwitcher className="absolute bottom-24 left-9 text-white/80 md:bottom-auto md:left-auto md:right-9 md:top-24" />
+        <div className="mono absolute right-9 top-8 hidden text-right text-[10px] tracking-[0.18em] text-white/40 sm:block">
           N 24°26′ · E 54°39′
           <br />
           HANGAR 03 · BAY 2
@@ -181,7 +184,7 @@ export function Gate() {
         {/* readouts */}
         <div className="absolute bottom-10 left-9 md:bottom-12">
           <div className="eyebrow text-white/45">
-            <span ref={status}>{STATUS[0]}</span>
+            <span ref={status}>{tr.t("gate.status1")}</span>
             <span className="ml-1 inline-block animate-pulse">_</span>
           </div>
           <div ref={dots} className="mt-4 flex gap-[7px]">
@@ -198,9 +201,9 @@ export function Gate() {
 
         {/* title + enter */}
         <div className="absolute inset-x-0 top-[8vh] text-center">
-          <div className="eyebrow text-white/45">{BRAND.company}</div>
+          <div className="eyebrow text-white/45">{tr.t("brand.company")}</div>
           <h1 className="display mt-4 text-[clamp(38px,6vw,92px)] font-light">{BRAND.name}</h1>
-          <div className="mt-3 text-[14px] text-white/50">{BRAND.tagline}</div>
+          <div className="mt-3 text-[14px] text-white/50">{tr.t("brand.tagline")}</div>
         </div>
         <div
           className={`absolute inset-x-0 bottom-[15vh] flex flex-col items-center gap-4 transition-all duration-700 sm:flex-row sm:justify-center md:bottom-[17vh] ${
@@ -208,11 +211,11 @@ export function Gate() {
           }`}
         >
           <button onClick={() => enter(true)} className="btn">
-            Enter with sound
+            {tr.t("gate.enterSound")}
             <span className="grid h-6 w-6 place-items-center rounded-full bg-ink text-[11px] text-white">♪</span>
           </button>
           <button onClick={() => enter(false)} className="text-[14px] font-semibold text-white/55 transition-colors hover:text-white">
-            Enter silently
+            {tr.t("gate.enterSilent")}
           </button>
         </div>
       </div>

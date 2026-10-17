@@ -7,6 +7,7 @@ import { rig } from "@/lib/rig";
 import { useUI } from "@/lib/store";
 import { SYSTEMS, partsBySystem, type System } from "@/data/parts";
 import { PartRow } from "@/components/PartCard";
+import { useT } from "@/i18n/client";
 
 /** Scroll tour: one chapter per aircraft system; the 3D camera flies to each. */
 export function SystemsSection() {
@@ -53,6 +54,9 @@ export function SystemsSection() {
 }
 
 function Chapter({ system, index }: { system: System; index: number }) {
+  const tr = useT();
+  const { t } = tr;
+  const sys = tr.system(system.id);
   const parts = partsBySystem(system.id);
   const set = useUI((s) => s.set);
   const shown = parts.slice(0, 5);
@@ -63,7 +67,8 @@ function Chapter({ system, index }: { system: System; index: number }) {
   };
 
   return (
-    <article data-chapter className="relative flex min-h-[100svh] items-end md:items-center">
+    // layout stays left-aligned (the 3D subject is framed on the right); text follows the language direction
+    <article data-chapter dir="ltr" className="relative flex min-h-[100svh] items-end md:items-center">
       <div
         className="pointer-events-none absolute inset-0 md:hidden"
         style={{ background: "linear-gradient(180deg, rgba(236,229,218,0) 38%, rgba(236,229,218,0.92) 58%, #ece5da 100%)" }}
@@ -72,10 +77,10 @@ function Chapter({ system, index }: { system: System; index: number }) {
         className="pointer-events-none absolute inset-y-0 left-0 hidden w-[55%] md:block"
         style={{ background: "linear-gradient(90deg, rgba(236,229,218,0.96) 0%, rgba(236,229,218,0.86) 58%, rgba(236,229,218,0) 100%)" }}
       />
-      <div className="relative w-full px-4 pb-10 pt-[50svh] md:w-[44%] md:max-w-[560px] md:px-10 md:py-24">
+      <div dir={tr.dir} className="relative w-full px-4 pb-10 pt-[50svh] md:w-[44%] md:max-w-[560px] md:px-10 md:py-24">
         {index === 0 && (
           <div data-rise className="eyebrow mb-10 text-ink/50">
-            Systems tour — {SYSTEMS.length} chapters
+            {t("sys.tour", { n: SYSTEMS.length })}
           </div>
         )}
         <div data-rise className="mono flex items-center gap-3 text-[11px] text-ink/55">
@@ -86,13 +91,13 @@ function Chapter({ system, index }: { system: System; index: number }) {
           <span>{system.ata}</span>
         </div>
         <h3 data-rise className="display mt-4 text-[clamp(34px,4.2vw,64px)]">
-          {system.name}
+          {sys.name}
         </h3>
         <p data-rise className="mt-4 text-[clamp(17px,1.4vw,21px)] font-semibold leading-snug">
-          {system.tagline}
+          {sys.tagline}
         </p>
         <p data-rise className="mt-3 max-w-[440px] text-[15px] leading-relaxed text-ink/70">
-          {system.description}
+          {sys.description}
         </p>
         <div data-rise className="mt-7 space-y-0.5">
           {shown.map((p) => (
@@ -105,7 +110,7 @@ function Chapter({ system, index }: { system: System; index: number }) {
           onClick={openCatalog}
           className="mt-5 inline-flex items-center gap-2 text-[14px] font-semibold underline decoration-ink/30 underline-offset-[6px] hover:decoration-ink"
         >
-          All {parts.length} {system.name.toLowerCase()} parts in the catalog →
+          {t("sys.all", { n: parts.length })}
         </button>
       </div>
     </article>

@@ -4,9 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Part } from "@/data/parts";
 import { useUI } from "@/lib/store";
+import { useT } from "@/i18n/client";
 
 export function PartCard({ part, size = "md" }: { part: Part; size?: "md" | "sm" }) {
   const set = useUI((s) => s.set);
+  const tr = useT();
   return (
     <Link
       href={`/parts/${part.id}`}
@@ -17,7 +19,7 @@ export function PartCard({ part, size = "md" }: { part: Part; size?: "md" | "sm"
       <div className="relative aspect-square overflow-hidden rounded-[18px] bg-[#ece2d4]">
         <Image
           src={part.image}
-          alt={part.name}
+          alt={tr.part(part).name}
           fill
           sizes={size === "sm" ? "160px" : "(max-width: 768px) 50vw, 25vw"}
           className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-[1.05]"
@@ -28,10 +30,10 @@ export function PartCard({ part, size = "md" }: { part: Part; size?: "md" | "sm"
       </div>
       <div className="mt-3 flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="text-[15px] font-semibold leading-tight">{part.name}</div>
+          <div className="text-[15px] font-semibold leading-tight">{tr.part(part).name}</div>
           <div className="mono mt-1 truncate text-[11px] text-ink-soft">{part.partNumber}</div>
         </div>
-        <span className="chip shrink-0 text-[11px]">{part.category}</span>
+        <span className="chip shrink-0 text-[11px]">{tr.category(part.category).name}</span>
       </div>
     </Link>
   );
@@ -39,6 +41,7 @@ export function PartCard({ part, size = "md" }: { part: Part; size?: "md" | "sm"
 
 export function PartRow({ part, onClick }: { part: Part; onClick?: () => void }) {
   const set = useUI((s) => s.set);
+  const tr = useT();
   return (
     <Link
       href={`/parts/${part.id}`}
@@ -51,9 +54,9 @@ export function PartRow({ part, onClick }: { part: Part; onClick?: () => void })
         <Image src={part.image} alt="" fill sizes="56px" className="object-cover" />
       </div>
       <div className="min-w-0 flex-1">
-        <div className="truncate text-[14.5px] font-semibold">{part.name}</div>
+        <div className="truncate text-[14.5px] font-semibold">{tr.part(part).name}</div>
         <div className="mono mt-0.5 truncate text-[10.5px] text-ink-soft">
-          {part.partNumber} · {part.category}
+          {part.partNumber} · {tr.category(part.category).name}
         </div>
       </div>
       <span className="pr-2 text-ink/40 transition-transform group-hover:translate-x-1 group-hover:text-ink">→</span>

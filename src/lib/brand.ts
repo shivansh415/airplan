@@ -1,5 +1,5 @@
 export const BRAND = {
-  name: "AirFromnerza",
-  company: "FROMNERZA Wholesale Retail Trading LTD",
+  name: "I ARCH TECH",
+  company: "I Arch Tech Company",
   tagline: "Wholesale & retail aircraft spare parts",
 };

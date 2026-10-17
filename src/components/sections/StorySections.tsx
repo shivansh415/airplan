@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, ScrollTrigger, scrollToId } from "@/lib/scroll";
 import { rig, smooth } from "@/lib/rig";
@@ -8,7 +8,8 @@ import { useUI } from "@/lib/store";
 import { explodeAircraft } from "@/lib/explode";
 import { ATA_CHAPTERS, PARTS, SYSTEMS } from "@/data/parts";
 import { DIMENSIONS } from "@/components/three/model";
-import { BRAND } from "@/lib/brand";
+import { useT } from "@/i18n/client";
+import { takeOff } from "@/lib/takeoff";
 
 const stickyBack = "sticky top-0 h-[100svh] w-full overflow-hidden z-0";
 const stickyFront = "sticky top-0 -mt-[100svh] h-[100svh] w-full overflow-hidden z-[2] pointer-events-none";
@@ -33,6 +34,7 @@ function track(el: HTMLElement | null, key: "hangar" | "sky" | "title" | "bluepr
 
 export function HangarSection() {
   const ref = useRef<HTMLElement>(null);
+  const { t } = useT();
   const entered = useUI((s) => s.entered);
 
   useGSAP(
@@ -51,12 +53,12 @@ export function HangarSection() {
       <div className={stickyBack} />
       <div className={stickyFront}>
         <div
-          className="absolute inset-x-0 bottom-[7vh] text-center transition-opacity duration-[2500ms]"
+          className="absolute inset-x-0 bottom-[17vh] text-center transition-opacity duration-[2500ms] md:bottom-[15vh]"
           style={{ opacity: entered ? 1 : 0, transitionDelay: entered ? "1.6s" : "0s" }}
         >
           <span
             data-ghost
-            className="display block text-[10.2vw] leading-none"
+            className="display block whitespace-nowrap text-[10vw] leading-none"
             style={{
               background: "linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.02) 90%)",
               WebkitBackgroundClip: "text",
@@ -64,7 +66,7 @@ export function HangarSection() {
               color: "transparent",
             }}
           >
-            AIRFROMNERZA
+            I ARCH TECH
           </span>
         </div>
         <div
@@ -72,20 +74,42 @@ export function HangarSection() {
           style={{ opacity: entered ? 1 : 0, transitionDelay: entered ? "2s" : "0s" }}
         >
           <div data-fade className="eyebrow absolute inset-x-0 top-[17vh] text-center text-white/55">
-            {BRAND.tagline}
+            {t("brand.tagline")}
           </div>
-          <p data-fade className="absolute bottom-10 left-4 max-w-[300px] text-[15px] leading-relaxed text-white/70 md:left-10">
-            Spare parts for airline fleets, supplied wholesale and retail. {PARTS.length} parts across {SYSTEMS.length} aircraft systems, from the hangar floor to the last O-ring.
+          <p data-fade className="absolute bottom-10 start-4 hidden max-w-[300px] text-[15px] leading-relaxed text-white/70 md:start-10 md:block">
+            {t("hangar.body", { parts: PARTS.length, systems: SYSTEMS.length })}
           </p>
-          <div data-fade className="absolute bottom-10 right-4 flex items-center gap-4 md:right-10">
-            <span className="eyebrow text-white/60">Scroll to take off</span>
-            <span className="relative block h-10 w-px overflow-hidden bg-white/20">
-              <span className="absolute inset-x-0 top-0 h-4 animate-[drop_1.8s_ease-in-out_infinite] bg-white" />
+
+          {/* tap the aircraft: pulsing hotspot just under the plane */}
+          <button
+            data-fade
+            onClick={takeOff}
+            className="pointer-events-auto absolute left-1/2 top-[60vh] flex -translate-x-1/2 items-center gap-3 rounded-full bg-white/[0.07] py-2 pe-4 ps-2 text-[13px] font-semibold text-white/85 ring-1 ring-white/15 backdrop-blur-md transition-colors hover:bg-white/15 md:top-[62vh]"
+          >
+            <span className="relative grid h-7 w-7 place-items-center">
+              <span className="absolute inset-0 animate-ping rounded-full bg-white/30" />
+              <span className="relative h-2.5 w-2.5 rounded-full bg-white" />
+            </span>
+            {t("hangar.tap")}
+          </button>
+
+          {/* scroll cue */}
+          <div data-fade className="absolute inset-x-0 bottom-[4vh] flex flex-col items-center gap-3 md:bottom-8">
+            <span className="relative block h-11 w-[26px] rounded-full border-[1.5px] border-white/70">
+              <span className="absolute left-1/2 top-2 h-2 w-[3px] -translate-x-1/2 animate-[wheel_1.6s_ease-in-out_infinite] rounded-full bg-white" />
+            </span>
+            <span className="eyebrow text-white/80">{t("hangar.cue")}</span>
+            <span className="flex flex-col items-center -space-y-1.5 text-white/50" aria-hidden>
+              <span className="animate-[chev_1.6s_ease-in-out_infinite] text-[13px]">⌄</span>
+              <span className="animate-[chev_1.6s_ease-in-out_0.2s_infinite] text-[13px]">⌄</span>
             </span>
           </div>
         </div>
       </div>
-      <style>{`@keyframes drop { 0% { transform: translateY(-100%) } 100% { transform: translateY(260%) } }`}</style>
+      <style>{`
+        @keyframes wheel { 0% { transform: translate(-50%, 0); opacity: 1 } 70% { transform: translate(-50%, 12px); opacity: 0 } 100% { transform: translate(-50%, 0); opacity: 0 } }
+        @keyframes chev { 0%, 100% { opacity: 0.2; transform: translateY(-2px) } 50% { opacity: 1; transform: translateY(2px) } }
+      `}</style>
     </section>
   );
 }
@@ -96,6 +120,7 @@ export function HangarSection() {
 
 export function SkySection() {
   const ref = useRef<HTMLElement>(null);
+  const { t } = useT();
   useGSAP(
     () => {
       track(ref.current, "sky");
@@ -115,12 +140,12 @@ export function SkySection() {
       <div className={stickyFront}>
         <div className="absolute inset-0 flex items-center justify-center px-6 text-center">
           <div data-l1 className="absolute bottom-[14vh] text-white [text-shadow:0_2px_30px_rgba(40,60,90,0.35)]">
-            <div className="eyebrow text-white/80">Gear up · flaps up</div>
-            <div className="display mt-4 text-[clamp(44px,7vw,110px)]">Lift off.</div>
+            <div className="eyebrow text-white/80">{t("sky.l1eyebrow")}</div>
+            <div className="display mt-4 text-[clamp(44px,7vw,110px)]">{t("sky.l1")}</div>
           </div>
           <div data-l2 className="absolute max-w-[820px] text-ink">
-            <div className="eyebrow text-ink/60">Flight level 370</div>
-            <div className="display mt-4 text-[clamp(30px,4.4vw,68px)]">Above the clouds, every component has a place.</div>
+            <div className="eyebrow text-ink/60">{t("sky.l2eyebrow")}</div>
+            <div className="display mt-4 text-[clamp(30px,4.4vw,68px)]">{t("sky.l2")}</div>
           </div>
         </div>
       </div>
@@ -134,6 +159,7 @@ export function SkySection() {
 
 export function TitleSection() {
   const ref = useRef<HTMLElement>(null);
+  const { t } = useT();
   useGSAP(
     () => {
       track(ref.current, "title");
@@ -152,33 +178,33 @@ export function TitleSection() {
         <div className="absolute inset-x-4 top-[17%] md:inset-x-10 md:top-[38%] md:flex md:items-start md:justify-between">
           <div>
             <h2 data-word className="display whitespace-nowrap text-[clamp(52px,8.2vw,170px)]">
-              Every part
+              {t("title.left")}
             </h2>
             <p data-meta className="mt-5 hidden max-w-[230px] text-[clamp(17px,1.6vw,26px)] font-semibold leading-[1.1] md:mt-8 md:block">
-              Mapped to where it lives on the aircraft
+              {t("title.sub")}
             </p>
           </div>
           <h2
             data-word
             className="display absolute right-0 top-[52svh] whitespace-nowrap text-right text-[clamp(52px,8.2vw,170px)] md:static"
           >
-            in place
+            {t("title.right")}
           </h2>
         </div>
       </div>
       <div className={stickyFront}>
         <div data-meta className="absolute bottom-10 right-4 hidden w-[min(420px,calc(100%-2rem))] md:right-10 md:block">
           <div className="flex justify-between border-t border-ink/20 pt-3 text-[12px] font-bold uppercase tracking-[0.08em]">
-            <span>Narrow-body</span>
-            <span>Twin turbofan</span>
+            <span>{t("title.meta1")}</span>
+            <span>{t("title.meta2")}</span>
           </div>
           <p className="mt-6 text-[15px] leading-relaxed text-ink/80">
-            A generic single-aisle airliner stands in as the reference airframe. When the fleet type is confirmed, the catalog and model follow it.
+            {t("title.body")}
           </p>
         </div>
         <div data-meta className="absolute bottom-10 left-1/2 hidden -translate-x-1/2 md:block">
           <button onClick={() => scrollToId("blueprint")} className="btn pointer-events-auto">
-            Inspect the airframe
+            {t("title.cta")}
             <span className="grid h-6 w-6 place-items-center rounded-full bg-ink text-[11px] text-white">↓</span>
           </button>
         </div>
@@ -196,6 +222,12 @@ export function BlueprintSection() {
   const readout = useRef<HTMLDivElement>(null);
   const ready = useUI((s) => s.drawingReady);
   const exploded = useUI((s) => s.exploded);
+  const tr = useT();
+  const { t } = tr;
+  const trRef = useRef(tr);
+  useEffect(() => {
+    trRef.current = tr;
+  }, [tr]);
 
   useGSAP(
     () => {
@@ -209,9 +241,7 @@ export function BlueprintSection() {
         const p = smooth(0.3, 0.62, rig.blueprint);
         const show = p > 0.001 && p < 0.999;
         readout.current.style.opacity = show ? "1" : "0";
-        readout.current.textContent = `Converting to technical drawing — ${Math.round(p * 100)
-          .toString()
-          .padStart(3, "0")}%`;
+        readout.current.textContent = trRef.current.t("bp.converting", { p: Math.round(p * 100).toString().padStart(3, "0") });
       };
       gsap.ticker.add(tick);
       return () => gsap.ticker.remove(tick);
@@ -220,26 +250,24 @@ export function BlueprintSection() {
   );
 
   const stats: [string, string][] = [
-    ["Parts catalogued", String(PARTS.length)],
-    ["Aircraft systems", String(SYSTEMS.length)],
-    ["ATA chapters", String(ATA_CHAPTERS)],
-    ["Part categories", "4"],
-    ["Overall length", `${DIMENSIONS.length} m`],
-    ["Wingspan", `${DIMENSIONS.span} m`],
+    [t("bp.stat.parts"), String(PARTS.length)],
+    [t("bp.stat.systems"), String(SYSTEMS.length)],
+    [t("bp.stat.ata"), String(ATA_CHAPTERS)],
+    [t("bp.stat.categories"), "4"],
+    [t("bp.stat.length"), `${DIMENSIONS.length} m`],
+    [t("bp.stat.span"), `${DIMENSIONS.span} m`],
   ];
 
   return (
     <section ref={ref} id="blueprint" className="relative h-[380vh] text-ink">
       <div className={`${stickyBack} transition-opacity duration-700 ${exploded ? "opacity-0" : "opacity-100"}`}>
         <div data-spec className="absolute left-4 top-[15vh] md:left-10">
-          <div className="eyebrow text-ink/60">Reference airframe</div>
-          <div className="display mt-3 text-[clamp(40px,5.6vw,96px)]">Narrow-body</div>
+          <div className="eyebrow text-ink/60">{t("bp.eyebrow")}</div>
+          <div className="display mt-3 text-[clamp(40px,5.6vw,96px)]">{t("bp.title")}</div>
         </div>
         <div data-spec className="absolute right-4 top-[15vh] hidden max-w-[300px] text-right md:right-10 md:block">
-          <div className="eyebrow text-ink/60">Single aisle · twin engine</div>
-          <p className="mt-4 text-[15px] leading-relaxed text-ink/75">
-            Every area of the drawing links to catalogued spare parts. Hover to see what sits beneath the skin.
-          </p>
+          <div className="eyebrow text-ink/60">{t("bp.rightEyebrow")}</div>
+          <p className="mt-4 text-[15px] leading-relaxed text-ink/75">{t("bp.rightBody")}</p>
         </div>
         <dl className="absolute bottom-10 left-4 hidden grid-cols-2 md:grid gap-x-10 gap-y-5 md:left-10">
           {stats.map(([k, v]) => (
@@ -273,11 +301,11 @@ export function BlueprintSection() {
           }`}
         >
           <span className="eyebrow rounded-full bg-paper/80 px-3 py-1.5 text-ink/70 backdrop-blur">
-            <span className="hidden md:inline">Hover</span>
-            <span className="md:hidden">Drag over</span> the drawing to x-ray it
+            <span className="hidden md:inline">{t("bp.hintHover")}</span>
+            <span className="md:hidden">{t("bp.hintTouch")}</span>
           </span>
           <button onClick={explodeAircraft} className={`btn btn-dark ${ready && !exploded ? "pointer-events-auto" : ""}`}>
-            Explore parts
+            {t("bp.explore")}
             <span className="grid h-6 w-6 place-items-center rounded-full bg-white/15 text-[12px]">✦</span>
           </button>
         </div>

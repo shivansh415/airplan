@@ -6,12 +6,14 @@ import { audio } from "@/lib/audio";
 import { scrollToId } from "@/lib/scroll";
 import { PARTS } from "@/data/parts";
 import { BRAND } from "@/lib/brand";
+import { LanguageSwitcher, useT } from "@/i18n/client";
+import type { UIKey } from "@/i18n/en";
 
-const NAV = [
-  { id: "explore", label: "Aircraft" },
-  { id: "blueprint", label: "Explode" },
-  { id: "systems", label: "Systems" },
-  { id: "catalog", label: "Catalog" },
+const NAV: { id: string; label: UIKey }[] = [
+  { id: "explore", label: "nav.aircraft" },
+  { id: "blueprint", label: "nav.explode" },
+  { id: "systems", label: "nav.systems" },
+  { id: "catalog", label: "nav.catalog" },
 ];
 
 export function Header() {
@@ -20,6 +22,7 @@ export function Header() {
   const exploded = useUI((s) => s.exploded);
   const set = useUI((s) => s.set);
   const covered = useUI((s) => s.covered);
+  const { t } = useT();
   const ref = useRef<HTMLElement>(null);
 
   // expose the header height so sticky bars can sit just below it
@@ -51,16 +54,17 @@ export function Header() {
         <nav className="hidden gap-8 text-[15px] font-semibold md:flex">
           {NAV.map((n) => (
             <button key={n.id} onClick={() => scrollToId(n.id)} className="opacity-90 transition-opacity hover:opacity-60">
-              {n.label}
+              {t(n.label)}
             </button>
           ))}
         </nav>
         <button onClick={() => scrollToId("top")} className="col-start-2 text-center" aria-label="Back to top">
           <span className="wide text-[22px] font-light tracking-[0.02em] md:text-[26px]">{BRAND.name}</span>
-          <span className="eyebrow mt-0.5 block text-[9px] opacity-60">Wholesale · Retail spare parts</span>
+          <span className="eyebrow mt-0.5 block text-[9px] opacity-60">{t("brand.sub")}</span>
         </button>
-        <div className="flex items-center justify-end gap-5 text-[14px] font-semibold md:gap-8">
-          <span className="mono hidden text-[12px] opacity-70 sm:inline">{PARTS.length} parts · demo catalog</span>
+        <div className="flex items-center justify-end gap-3 text-[14px] font-semibold sm:gap-5 md:gap-7">
+          <span className="mono hidden text-[12px] opacity-70 lg:inline">{t("header.count", { n: PARTS.length })}</span>
+          <LanguageSwitcher />
           <button onClick={toggleSound} className="flex items-center gap-2" aria-pressed={sound} aria-label="Toggle sound">
             <span className="flex h-3.5 items-end gap-[2px]">
               {[0, 1, 2, 3].map((i) => (
@@ -74,7 +78,7 @@ export function Header() {
                 />
               ))}
             </span>
-            <span className="hidden sm:inline">Sound {sound ? "on" : "off"}</span>
+            <span className="hidden sm:inline">{t(sound ? "sound.on" : "sound.off")}</span>
           </button>
         </div>
       </div>

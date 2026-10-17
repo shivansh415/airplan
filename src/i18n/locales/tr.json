@@ -1,0 +1,934 @@
+{
+  "ui": {
+    "brand.company": "I Arch Tech Şirketi",
+    "brand.tagline": "Toptan ve perakende uçak yedek parçaları",
+    "brand.sub": "Toptan · Perakende yedek parça",
+    "nav.aircraft": "Uçak",
+    "nav.explode": "Ayrıştır",
+    "nav.systems": "Sistemler",
+    "nav.catalog": "Katalog",
+    "header.count": "{n} parça · demo katalog",
+    "sound.on": "Ses açık",
+    "sound.off": "Ses kapalı",
+    "lang.label": "Dil",
+    "gate.status1": "Gövde geometrisi yükleniyor",
+    "gate.status2": "Kanat kesitleri oluşturuluyor",
+    "gate.status3": "{parts} parça {systems} sisteme eşleniyor",
+    "gate.status4": "Hangar ışıkları kalibre ediliyor",
+    "gate.status5": "Pushback için hazır",
+    "gate.enterSound": "Sesli giriş",
+    "gate.enterSilent": "Sessiz giriş",
+    "hangar.body": "Havayolu filoları için toptan ve perakende yedek parça tedariki. Hangar zemininden son O-ringe kadar, {systems} uçak sisteminde {parts} parça.",
+    "hangar.scroll": "Kalkış için kaydırın",
+    "hangar.tap": "Kalkış için uçağa dokunun",
+    "hangar.cue": "Kaydırın veya uçağa dokunun",
+    "sky.l1eyebrow": "İniş takımı yukarı · flaplar yukarı",
+    "sky.l1": "Kalkış.",
+    "sky.l2eyebrow": "Uçuş seviyesi 370",
+    "sky.l2": "Bulutların üzerinde her bileşenin bir yeri var.",
+    "title.left": "Her parça",
+    "title.right": "yerli yerinde",
+    "title.sub": "Uçaktaki konumuna göre eşlendi",
+    "title.meta1": "Dar gövde",
+    "title.meta2": "Çift turbofan",
+    "title.body": "Referans gövde olarak genel bir tek koridorlu yolcu uçağı kullanılmaktadır. Filo tipi netleştiğinde katalog ve model de buna göre güncellenir.",
+    "title.cta": "Gövdeyi incele",
+    "bp.eyebrow": "Referans gövde",
+    "bp.title": "Dar gövde",
+    "bp.rightEyebrow": "Tek koridor · çift motor",
+    "bp.rightBody": "Çizimin her bölgesi kataloglanmış yedek parçalara bağlıdır. Kaplamanın altında ne olduğunu görmek için imleci üzerine getirin.",
+    "bp.stat.parts": "Kataloglu parça",
+    "bp.stat.systems": "Uçak sistemi",
+    "bp.stat.ata": "ATA bölümü",
+    "bp.stat.categories": "Parça kategorisi",
+    "bp.stat.length": "Toplam uzunluk",
+    "bp.stat.span": "Kanat açıklığı",
+    "bp.converting": "Teknik çizime dönüştürülüyor — %{p}",
+    "bp.hintHover": "Röntgen görünümü için imleci çizimin üzerine getirin",
+    "bp.hintTouch": "Röntgen görünümü için çizimin üzerinde sürükleyin",
+    "bp.explore": "Parçaları keşfet",
+    "ex.eyebrow": "Patlatılmış görünüm · {n} parça",
+    "ex.title": "Her parça, havada.",
+    "ex.hint": "Döndürmek için sürükleyin · yakınlaştırmak için kaydırın · bir parçaya tıklayın",
+    "ex.reassemble": "Yeniden birleştir",
+    "panel.count": "{n} kataloglu parça",
+    "panel.close": "Kapat",
+    "hover.parts": "{n} parça",
+    "hover.open": "Tüm parçaları açmak için tıklayın →",
+    "sys.tour": "Sistem turu — {n} bölüm",
+    "sys.all": "Katalogdaki {n} parçanın tümünü gör →",
+    "cat.eyebrow": "Parça kataloğu",
+    "cat.title": "Katalog",
+    "cat.intro": "Her parça filolar için toptan veya tek adet olarak perakende tedarik edilir. Ad, ATA bölümü veya demo parça numarasıyla arayın, sisteme ya da kategoriye göre filtreleyin ve tam bilgi sayfası için herhangi bir parçayı açın.",
+    "cat.search": "Parça arayın, ör. “fren”, “ATA 32”, “DEMO-29”",
+    "cat.clear": "Aramayı temizle",
+    "cat.allCategories": "Tüm kategoriler",
+    "cat.allSystems": "Tüm sistemler",
+    "cat.count": "{total} parçadan {n}",
+    "cat.demoNote": "Demo veri · parça numaraları temsilidir",
+    "cat.empty": "Eşleşen parça yok. Başka bir kelime deneyin veya filtreleri temizleyin.",
+    "footer.disclaimer": "Genel bir dar gövdeli yolcu uçağı için tanıtım kataloğudur. Parça numaraları (DEMO-xx-xxx) temsilidir. Gerçek parça numaraları, uyumluluk ve stok durumu, tedarikçi tarafından uçağın IPC'sine göre teyit edilecektir.",
+    "part.back": "← Gezgine dön",
+    "part.number": "Parça numarası",
+    "part.demoNote": "Demo ID · tedarikçi tarafından teyit edilecektir",
+    "part.ata": "ATA bölümü",
+    "part.system": "Sistem",
+    "part.category": "Kategori",
+    "part.location": "Konum",
+    "part.area": "Uçak bölgesi",
+    "part.compatible": "Uyumlu uçak",
+    "part.compatibleValue": "Dar gövdeli çift motorlu (filo tipi TBC)",
+    "part.supply": "Tedarik",
+    "part.supplyValue": "Toptan (filo miktarları) ve perakende (tek adet)",
+    "part.datasheet": "Teknik föy",
+    "part.datasheetValue": "Talep üzerine sunulur",
+    "part.illustrative": "Temsili görsel",
+    "part.whereItSits": "Konumu",
+    "part.loading": "Uçak yükleniyor…",
+    "part.more": "Diğer {system} parçaları",
+    "part.prev": "← Önceki",
+    "part.next": "Sonraki →"
+  },
+  "systems": {
+    "engines": {
+      "name": "Motorlar ve Naseller",
+      "tagline": "İtki, marş, yağ ve egzoz.",
+      "description": "Kanat altı nasellerde yüksek bypass oranlı turbofan motorlar: fan, çekirdek, aksesuar dişli kutusu ekipmanları, ateşleme, marş ve yağ sistemleri."
+    },
+    "apu": {
+      "name": "Yardımcı Güç Ünitesi",
+      "tagline": "Yerde güç.",
+      "description": "Kuyruk konisindeki küçük gaz türbini; motor marşı ve klima için elektrik gücü ve bleed havası sağlar."
+    },
+    "landing-gear": {
+      "name": "İniş Takımı, Tekerlekler ve Frenler",
+      "tagline": "Her iniş burada sona erer.",
+      "description": "Burun ve ana iniş takımı bacakları, toplama sistemi, yönlendirme, tekerlekler, lastikler ve anti-skid'li karbon frenler."
+    },
+    "flight-controls": {
+      "name": "Uçuş Kumandaları",
+      "tagline": "Yunuslama, yatış, sapma ve kaldırma.",
+      "description": "Aktüatörleri, sensörleri ve bilgisayarlarıyla birlikte birincil ve ikincil kumanda yüzeyleri."
+    },
+    "hydraulics": {
+      "name": "Hidrolik Güç",
+      "tagline": "Yüzeylerin arkasındaki güç.",
+      "description": "Üç bağımsız sistem için motor tahrikli ve elektrik tahrikli pompalar, rezervuarlar, akümülatörler ve filtrasyon."
+    },
+    "fuel": {
+      "name": "Yakıt Sistemi",
+      "tagline": "Depolanır, ölçülür, iletilir.",
+      "description": "Kanat ve merkez tankları, takviye pompaları, valfler, miktar probları ve yakıt ikmal paneli."
+    },
+    "electrical": {
+      "name": "Elektrik Gücü",
+      "tagline": "AC, DC ve yedek.",
+      "description": "Jeneratörler, transformatör-redresörler, aküler, kontaktörler ve dağıtım panelleri."
+    },
+    "avionics": {
+      "name": "Aviyonik ve Navigasyon",
+      "tagline": "Algıla, hesapla, iletişim kur.",
+      "description": "Ekranlar, uçuş bilgisayarları, telsizler, navigasyon sensörleri ve onları besleyen problar."
+    },
+    "lighting": {
+      "name": "Aydınlatma",
+      "tagline": "Görünür ve gören.",
+      "description": "Dış seyrüsefer, strobe, beacon, iniş ve taksi ışıkları ile kabin ve acil durum aydınlatması."
+    },
+    "air-conditioning": {
+      "name": "Klima ve Pnömatik",
+      "tagline": "37.000 fitte solunabilir hava.",
+      "description": "Klima paketleri, basınçlandırma kontrolü, bleed havası valfleri ve kabin havası resirkülasyonu."
+    },
+    "cabin": {
+      "name": "Kabin ve İç Donanım",
+      "tagline": "Yolcuların her şeyi fark ettiği yer.",
+      "description": "Koltuklar, galley'ler, tuvaletler, oksijen, su ve atık sistemleri ile kabin donanımları."
+    },
+    "doors-windows": {
+      "name": "Kapılar ve Pencereler",
+      "tagline": "Sızdırmaz, basınçlı, sertifikalı.",
+      "description": "Yolcu, servis, kargo kapıları ve acil çıkışlar, kokpit ön camları ve kabin pencereleri."
+    },
+    "protection": {
+      "name": "Yangın, Buz ve Yağmur Koruması",
+      "tagline": "Algıla, söndür, temiz tut.",
+      "description": "Yangın algılama ve söndürme, kanat ve motor buzlanma önleme, prob ısıtma ve ön cam yağmur giderme."
+    },
+    "consumables": {
+      "name": "Filtreler ve Sarf Malzemeleri",
+      "tagline": "Küçük parçalar, her bakımda.",
+      "description": "Rutin bakım kontrollerinde değiştirilen filtreler, contalar, sıvılar, lambalar ve bağlantı elemanları."
+    }
+  },
+  "anchors": {
+    "engine": "Motor ve nasel",
+    "pylon": "Motor pilonu",
+    "apu": "Yardımcı güç ünitesi",
+    "nose-gear": "Burun iniş takımı",
+    "main-gear": "Ana iniş takımı",
+    "wing": "Kanat",
+    "slats": "Hücum kenarı slatları",
+    "flaps": "Firar kenarı flapları",
+    "aileron": "Kanatçıklar",
+    "spoilers": "Spoilerlar",
+    "hstab": "Yatay stabilize",
+    "elevator": "İrtifa dümenleri",
+    "vstab": "Dikey stabilize",
+    "rudder": "İstikamet dümeni",
+    "fuel": "Yakıt tankları",
+    "hydraulic": "Hidrolik bölmesi",
+    "electrical": "Elektrik güç merkezi",
+    "avionics": "Aviyonik bölmesi",
+    "cockpit": "Kokpit",
+    "radome": "Radom ve hava radarı",
+    "probes": "Hava verisi probları",
+    "lights": "Dış ışıklar",
+    "packs": "Klima paketleri",
+    "cabin": "Yolcu kabini",
+    "galley": "Galley'ler ve tuvaletler",
+    "doors": "Kapılar ve çıkışlar",
+    "windows": "Kabin pencereleri",
+    "fuselage": "Gövde ve yapı"
+  },
+  "categories": {
+    "Rotable": {
+      "name": "Döner parça",
+      "info": "Revizyondan geçirilip stoğa geri alınan seri numaralı bileşen. Genellikle sertifikasıyla (EASA Form 1 / FAA 8130-3) değişim esasına göre tedarik edilir."
+    },
+    "Repairable": {
+      "name": "Onarılabilir",
+      "info": "Hurdaya ayrılmadan önce sınırlı sayıda onarılabilen bileşen."
+    },
+    "Expendable": {
+      "name": "Harcanabilir",
+      "info": "Onarılmak yerine değiştirilen düşük maliyetli donanım."
+    },
+    "Consumable": {
+      "name": "Sarf malzemesi",
+      "info": "Kullanımda tükenen malzemeler: sıvılar, filtreler, contalar, lambalar ve benzerleri."
+    }
+  },
+  "parts": {
+    "fan-blade-set": {
+      "name": "Fan Palası Seti",
+      "description": "Motor itkisinin büyük bölümünü üreten geniş kirişli titanyum veya kompozit fan kanatçıkları. Erozyon ve darbe hasarına karşı muayene edilir.",
+      "location": "Motor girişi, fan kademesi"
+    },
+    "spinner-cone": {
+      "name": "Spinner Konisi",
+      "description": "Fan göbeğini örten, hava akışını yönlendiren ve buzu atan aerodinamik burun konisi.",
+      "location": "Motor girişi, fan göbeği"
+    },
+    "engine-inlet-cowl": {
+      "name": "Motor Giriş Kaportası",
+      "description": "Fana düzgün hava akışı sağlayan, buzlanma önleme kanallı nasel ön bölümü.",
+      "location": "Nasel, ön"
+    },
+    "fan-cowl-door": {
+      "name": "Fan Kaporta Kapağı",
+      "description": "Fan muhafazasına ve aksesuar dişli kutusuna erişim sağlayan menteşeli kaporta panelleri.",
+      "location": "Nasel, yanlar"
+    },
+    "thrust-reverser-actuator": {
+      "name": "Ters İtki Aktüatörü",
+      "description": "Teker koyduktan sonra uçağı yavaşlatmak için ters itki manşonunu açan hidrolik veya elektrikli aktüatör.",
+      "location": "Ters itki ünitesi, arka nasel"
+    },
+    "fuel-metering-unit": {
+      "name": "Yakıt Ölçüm Ünitesi",
+      "description": "Motor kontrol bilgisayarının komutuyla yanma odasına giden yakıt akışını ayarlar.",
+      "location": "Aksesuar dişli kutusu"
+    },
+    "engine-control-unit-fadec": {
+      "name": "Motor Kontrol Ünitesi (FADEC)",
+      "description": "İtkiyi, marşı ve limitleri yöneten çift kanallı tam yetkili dijital motor kontrolü.",
+      "location": "Fan muhafazası"
+    },
+    "ignition-exciter": {
+      "name": "Ateşleme Uyarıcısı",
+      "description": "Marş sırasında ve uçuşta yeniden ateşlemede ateşleme bujilerini besleyen yüksek enerjili ünite.",
+      "location": "Çekirdek muhafazası"
+    },
+    "igniter-plug": {
+      "name": "Ateşleme Bujisi",
+      "description": "Yanma odasındaki yakıt-hava karışımını tutuşturan buji. Belirli aralıklarla değiştirilir.",
+      "location": "Yanma odası"
+    },
+    "pneumatic-starter": {
+      "name": "Pnömatik Marş Motoru",
+      "description": "APU veya yer bleed havasıyla motor çekirdeğini döndüren hava türbinli marş motoru.",
+      "location": "Aksesuar dişli kutusu"
+    },
+    "starter-air-valve": {
+      "name": "Marş Havası Valfi",
+      "description": "Pnömatik marş motoruna giden marş havası akışını kontrol eder.",
+      "location": "Çekirdek kaporta bölgesi"
+    },
+    "oil-pump-assembly": {
+      "name": "Yağ Pompası Grubu",
+      "description": "Yağı rulmanlar ve dişli kutuları boyunca dolaştıran basınç ve emiş pompası ünitesi.",
+      "location": "Aksesuar dişli kutusu"
+    },
+    "oil-quantity-transmitter": {
+      "name": "Yağ Miktarı Vericisi",
+      "description": "Motor yağ seviyesini kokpit ekranlarına bildiren sensör.",
+      "location": "Yağ tankı"
+    },
+    "exhaust-nozzle-and-plug": {
+      "name": "Egzoz Lülesi ve Konisi",
+      "description": "Verimli itki ve daha düşük gürültü için çekirdek egzoz akışını şekillendirir.",
+      "location": "Motor egzozu"
+    },
+    "engine-pylon-fairing": {
+      "name": "Motor Pilonu Kaportası",
+      "description": "Motoru kanada bağlayan dikme üzerindeki aerodinamik kaporta.",
+      "location": "Kanat-motor pilonu"
+    },
+    "apu-power-section": {
+      "name": "APU Güç Bölümü",
+      "description": "Jeneratörü tahrik eden ve bleed havası sağlayan APU'nun gaz türbini çekirdeği.",
+      "location": "Kuyruk konisi"
+    },
+    "apu-starter-motor": {
+      "name": "APU Marş Motoru",
+      "description": "APU'yu kendi kendine devam edebileceği hıza çıkaran DC elektrik motoru.",
+      "location": "Kuyruk konisi, APU dişli kutusu"
+    },
+    "apu-generator": {
+      "name": "APU Jeneratörü",
+      "description": "Yerde ve uçuşta yedek olarak uçağa elektrik gücü sağlayan AC jeneratör.",
+      "location": "Kuyruk konisi, APU dişli kutusu"
+    },
+    "apu-electronic-control-box": {
+      "name": "APU Elektronik Kontrol Kutusu",
+      "description": "APU marşını, devrini, sıcaklığını ve koruyucu kapatmaları kontrol eder.",
+      "location": "Arka kargo / kuyruk bölgesi"
+    },
+    "apu-air-inlet-door-actuator": {
+      "name": "APU Hava Giriş Kapağı Aktüatörü",
+      "description": "APU hava giriş kapağını açar ve kapatır.",
+      "location": "Kuyruk konisi, giriş"
+    },
+    "apu-fuel-control-unit": {
+      "name": "APU Yakıt Kontrol Ünitesi",
+      "description": "APU yanma odasına giden yakıt akışını düzenler.",
+      "location": "APU aksesuar bölümü"
+    },
+    "apu-exhaust-muffler": {
+      "name": "APU Egzoz Susturucusu",
+      "description": "APU egzoz gazını kuyruktan dışarı yönlendirir ve sesini azaltır.",
+      "location": "Kuyruk konisi, egzoz"
+    },
+    "main-landing-gear-shock-strut": {
+      "name": "Ana İniş Takımı Amortisör Dikmesi",
+      "description": "İniş yüklerini sönümleyen ve uçağı yerde taşıyan oleo-pnömatik bacak.",
+      "location": "Ana iniş takımı yuvası"
+    },
+    "nose-landing-gear-shock-strut": {
+      "name": "Burun İniş Takımı Amortisör Dikmesi",
+      "description": "Burun tekerleklerini taşıyan, entegre yönlendirme bilezikli oleo dikme.",
+      "location": "Burun iniş takımı yuvası"
+    },
+    "main-wheel-assembly": {
+      "name": "Ana Tekerlek Grubu",
+      "description": "Rulmanlı ve aşırı ısınmada basıncı tahliye eden eriyebilir tıpalı dövme alüminyum tekerlek.",
+      "location": "Ana iniş takımı aksı"
+    },
+    "nose-wheel-assembly": {
+      "name": "Burun Tekerleği Grubu",
+      "description": "Yönlendirmeyi ve burun yüklerini taşıyan çift burun tekerleği.",
+      "location": "Burun iniş takımı aksı"
+    },
+    "main-tyre": {
+      "name": "Ana Lastik",
+      "description": "Nitrojenle şişirilen radyal veya çapraz katlı uçak lastiği. Aşınma limitlerinde değiştirilir veya kaplanır.",
+      "location": "Ana iniş takımı tekerlekleri"
+    },
+    "nose-tyre": {
+      "name": "Burun Lastiği",
+      "description": "Pist suyunu motorlardan uzaklaştıran yanak sırtlı (chined) burun lastiği.",
+      "location": "Burun iniş takımı tekerlekleri"
+    },
+    "carbon-brake-assembly": {
+      "name": "Karbon Fren Grubu",
+      "description": "Aşınma gösterge pimli, çok diskli karbon ısı emicili fren.",
+      "location": "Ana iniş takımı tekerlekleri"
+    },
+    "anti-skid-transducer": {
+      "name": "Anti-Skid Transdüseri",
+      "description": "Anti-skid sisteminin tekerlek kilitlenmesini önlemesini sağlayan tekerlek hızı sensörü.",
+      "location": "Ana tekerlek aksı"
+    },
+    "brake-control-valve": {
+      "name": "Fren Kontrol Valfi",
+      "description": "Pedal veya otomatik fren komutuyla frenlere giden hidrolik basıncı ayarlar.",
+      "location": "Ana iniş takımı yuvası"
+    },
+    "retraction-actuator": {
+      "name": "Toplama Aktüatörü",
+      "description": "İniş takımı bacağını kaldırıp indiren hidrolik aktüatör.",
+      "location": "Ana iniş takımı yuvası"
+    },
+    "nose-wheel-steering-actuator": {
+      "name": "Burun Tekerleği Yönlendirme Aktüatörü",
+      "description": "Tiller ve dümen pedallarıyla yerde yönlendirme için burun tekerleklerini döndürür.",
+      "location": "Burun iniş takımı bacağı"
+    },
+    "gear-uplock-assembly": {
+      "name": "İniş Takımı Yukarı Kilit Grubu",
+      "description": "Uçuşta iniş takımını yukarıda tutan mekanik kilit.",
+      "location": "Ana iniş takımı yuvası"
+    },
+    "torque-link-assembly": {
+      "name": "Tork Bağlantı Grubu",
+      "description": "İç silindirin dönmesini engelleyen ve yönlendirmeyi ileten makas bağlantıları.",
+      "location": "İniş takımı bacağı"
+    },
+    "aileron-servo-actuator": {
+      "name": "Kanatçık Servo Aktüatörü",
+      "description": "Yatış kontrolü için kanatçığı hareket ettiren hidrolik aktüatör.",
+      "location": "Dış kanat, firar kenarı"
+    },
+    "elevator-servo-actuator": {
+      "name": "İrtifa Dümeni Servo Aktüatörü",
+      "description": "Yunuslama kontrolü için irtifa dümenini tahrik eder.",
+      "location": "Yatay stabilize"
+    },
+    "rudder-power-control-unit": {
+      "name": "İstikamet Dümeni Güç Kontrol Ünitesi",
+      "description": "Sapma kontrolü için istikamet dümenini tahrik eden hidrolik ünite.",
+      "location": "Dikey stabilize"
+    },
+    "trimmable-horizontal-stabiliser-actuator": {
+      "name": "Trimlenebilir Yatay Stabilize Aktüatörü",
+      "description": "Yatay stabilizenin tamamını trimleyen vidalı kriko.",
+      "location": "Kuyruk konisi, stabilize menteşesi"
+    },
+    "flap-actuator": {
+      "name": "Flap Aktüatörü",
+      "description": "Firar kenarı flaplarını açan bilyalı vidalı aktüatör.",
+      "location": "Kanat firar kenarı"
+    },
+    "slat-actuator": {
+      "name": "Slat Aktüatörü",
+      "description": "Hücum kenarı slatlarını tahrik eden döner aktüatör.",
+      "location": "Kanat hücum kenarı"
+    },
+    "spoiler-actuator": {
+      "name": "Spoiler Aktüatörü",
+      "description": "Yatış desteği, hava freni ve yerde kaldırma kuvvetini bozma için spoiler panellerini kaldırır.",
+      "location": "Kanat üst yüzeyi"
+    },
+    "flap-track-fairing": {
+      "name": "Flap Rayı Kaportası",
+      "description": "Flap destek rayı üzerindeki aerodinamik kaporta ('kano').",
+      "location": "Kanat altı"
+    },
+    "flight-control-computer": {
+      "name": "Uçuş Kontrol Bilgisayarı",
+      "description": "Pilot girdileri ve korumalara göre yüzey komutlarını hesaplar.",
+      "location": "Aviyonik bölmesi"
+    },
+    "control-surface-position-sensor": {
+      "name": "Kumanda Yüzeyi Konum Sensörü",
+      "description": "Yüzeyin gerçek konumunu uçuş kontrol bilgisayarlarına bildirir.",
+      "location": "Her kumanda yüzeyinde"
+    },
+    "static-discharger-wick": {
+      "name": "Statik Boşaltıcı (Fitil)",
+      "description": "Telsiz parazitini azaltmak için statik yükü havaya boşaltır.",
+      "location": "Firar kenarları ve uçlar"
+    },
+    "engine-driven-hydraulic-pump": {
+      "name": "Motor Tahrikli Hidrolik Pompa",
+      "description": "Ana sistem basıncını sağlayan değişken debili pompa.",
+      "location": "Motor aksesuar dişli kutusu"
+    },
+    "electric-motor-driven-pump": {
+      "name": "Elektrik Motoru Tahrikli Pompa",
+      "description": "Yedek basınç ve yer operasyonu için elektrikli pompa.",
+      "location": "Ana iniş takımı yuvası"
+    },
+    "power-transfer-unit": {
+      "name": "Güç Transfer Ünitesi",
+      "description": "Sıvıları karıştırmadan sistemler arasında hidrolik güç aktarır.",
+      "location": "Ana iniş takımı yuvası"
+    },
+    "hydraulic-reservoir": {
+      "name": "Hidrolik Rezervuar",
+      "description": "Her hidrolik sistem için sıvı depolayan basınçlı tank.",
+      "location": "Ana iniş takımı yuvası"
+    },
+    "hydraulic-accumulator": {
+      "name": "Hidrolik Akümülatör",
+      "description": "Basınç dalgalanmalarını sönümleyen ve yedek enerji depolayan nitrojen dolu ünite.",
+      "location": "Ana iniş takımı yuvası"
+    },
+    "ram-air-turbine-rat": {
+      "name": "Ram Hava Türbini (RAT)",
+      "description": "Hidrolik ve elektrik gücü sağlayan, rüzgârla dönen acil durum türbini.",
+      "location": "Kanat-gövde kaportası"
+    },
+    "hydraulic-pressure-transmitter": {
+      "name": "Hidrolik Basınç Vericisi",
+      "description": "Sistem basıncı değerlerini kokpite iletir.",
+      "location": "Hidrolik manifoldlar"
+    },
+    "priority-valve": {
+      "name": "Öncelik Valfi",
+      "description": "Talep yüksek olduğunda uçuş kumandalarına basıncı korur.",
+      "location": "Hidrolik manifoldlar"
+    },
+    "fuel-boost-pump": {
+      "name": "Yakıt Takviye Pompası",
+      "description": "Motorlara basınçlı yakıt sağlayan dalgıç elektrikli pompa.",
+      "location": "Kanat tankları"
+    },
+    "fuel-quantity-probe": {
+      "name": "Yakıt Miktarı Probu",
+      "description": "Ölçüm sistemi için yakıt yüksekliğini ölçen kapasitif prob.",
+      "location": "Yakıt tanklarının içi"
+    },
+    "fuel-shut-off-valve-lp-valve": {
+      "name": "Yakıt Kesme Valfi (LP Valfi)",
+      "description": "Acil durumda motora giden yakıtı kesen motorlu valf.",
+      "location": "Kanat, motor besleme hattı"
+    },
+    "crossfeed-valve": {
+      "name": "Çapraz Besleme Valfi",
+      "description": "Yakıtı dengelemek için herhangi bir tankın herhangi bir motoru beslemesini sağlar.",
+      "location": "Merkez kanat kutusu"
+    },
+    "refuel-control-panel": {
+      "name": "Yakıt İkmal Kontrol Paneli",
+      "description": "Basınçlı yakıt ikmali ve yakıt yüklerinin ayarlanması için panel.",
+      "location": "Sağ kanat altı"
+    },
+    "refuel-coupling": {
+      "name": "Yakıt İkmal Kaplini",
+      "description": "Standart basınçlı yakıt ikmal nozul adaptörü.",
+      "location": "Sağ kanat altı"
+    },
+    "fuel-quantity-indicating-computer": {
+      "name": "Yakıt Miktarı Gösterge Bilgisayarı",
+      "description": "Prob sinyallerini tank başına yakıt miktarına dönüştürür.",
+      "location": "Aviyonik bölmesi"
+    },
+    "water-drain-valve": {
+      "name": "Su Tahliye Valfi",
+      "description": "Yakıt tanklarındaki suyu boşaltmak için sump tahliyesi.",
+      "location": "Tank alt noktaları"
+    },
+    "integrated-drive-generator": {
+      "name": "Entegre Tahrikli Jeneratör",
+      "description": "Her motor tarafından tahrik edilen sabit frekanslı AC jeneratör.",
+      "location": "Motor aksesuar dişli kutusu"
+    },
+    "generator-control-unit": {
+      "name": "Jeneratör Kontrol Ünitesi",
+      "description": "Jeneratör gerilimini düzenler ve elektrik şebekesini korur.",
+      "location": "Aviyonik bölmesi"
+    },
+    "transformer-rectifier-unit": {
+      "name": "Transformatör Redresör Ünitesi",
+      "description": "Uçak sistemleri için AC gücü 28 V DC'ye dönüştürür.",
+      "location": "Aviyonik bölmesi"
+    },
+    "main-aircraft-battery": {
+      "name": "Ana Uçak Aküsü",
+      "description": "APU marşı ve acil DC güç için nikel-kadmiyum veya lityum akü.",
+      "location": "Aviyonik bölmesi"
+    },
+    "static-inverter": {
+      "name": "Statik İnvertör",
+      "description": "Temel göstergeler için akü DC gücünü AC'ye dönüştürür.",
+      "location": "Aviyonik bölmesi"
+    },
+    "power-contactor": {
+      "name": "Güç Kontaktörü",
+      "description": "Jeneratör ve bara bağlantılarını anahtarlayan ağır hizmet rölesi.",
+      "location": "Elektrik güç merkezi"
+    },
+    "circuit-breaker-panel": {
+      "name": "Devre Kesici Paneli",
+      "description": "Her uçak devresi için koruyucu devre kesiciler.",
+      "location": "Kokpit tavan paneli / arka"
+    },
+    "ground-power-receptacle": {
+      "name": "Yer Gücü Prizi",
+      "description": "115 V AC yer gücü için harici priz.",
+      "location": "Burun, sağ alt"
+    },
+    "primary-flight-display": {
+      "name": "Birincil Uçuş Ekranı",
+      "description": "Durum, hız, irtifa ve başı gösteren LCD ekran.",
+      "location": "Kokpit paneli"
+    },
+    "multi-function-display": {
+      "name": "Çok Fonksiyonlu Ekran",
+      "description": "Navigasyon, motor ve sistem sayfalarını gösterir.",
+      "location": "Kokpit paneli"
+    },
+    "flight-management-computer": {
+      "name": "Uçuş Yönetim Bilgisayarı",
+      "description": "Rotayı planlar ve uçar; performans ve yakıt tahminleri yapar.",
+      "location": "Aviyonik bölmesi"
+    },
+    "air-data-inertial-reference-unit": {
+      "name": "Hava Verisi Ataletsel Referans Ünitesi",
+      "description": "Durum ve konum için hava verisini lazer jiroskoplu ataletsel referansla birleştirir.",
+      "location": "Aviyonik bölmesi"
+    },
+    "weather-radar-antenna": {
+      "name": "Hava Radarı Anteni",
+      "description": "Önde yağış ve rüzgâr kesmesini tarar.",
+      "location": "Burun radomu"
+    },
+    "weather-radar-transceiver": {
+      "name": "Hava Radarı Alıcı-Vericisi",
+      "description": "Hava radarı sistemi için verici/alıcı.",
+      "location": "Aviyonik bölmesi"
+    },
+    "vhf-communication-transceiver": {
+      "name": "VHF Haberleşme Alıcı-Vericisi",
+      "description": "Hava trafik kontrolü için ses ve veri bağlantısı telsizi.",
+      "location": "Aviyonik bölmesi"
+    },
+    "pitot-probe": {
+      "name": "Pitot Probu",
+      "description": "Hava hızı için toplam basıncı ölçen ısıtmalı prob.",
+      "location": "Ön gövde"
+    },
+    "angle-of-attack-sensor": {
+      "name": "Hücum Açısı Sensörü",
+      "description": "Kanadın hava akışına göre açısını ölçen kanatçıklı sensör.",
+      "location": "Ön gövde"
+    },
+    "transponder": {
+      "name": "Transponder",
+      "description": "ATC ve çarpışma önleme sorgulamalarına yanıt verir.",
+      "location": "Aviyonik bölmesi"
+    },
+    "radio-altimeter-antenna": {
+      "name": "Radyo Altimetre Anteni",
+      "description": "Yaklaşmada yerden yüksekliği ölçer.",
+      "location": "Alt gövde"
+    },
+    "cockpit-voice-recorder": {
+      "name": "Kokpit Ses Kayıt Cihazı",
+      "description": "Kokpit seslerini kaydeden, kazaya dayanıklı kayıt cihazı.",
+      "location": "Arka gövde"
+    },
+    "flight-data-recorder": {
+      "name": "Uçuş Veri Kayıt Cihazı",
+      "description": "Uçuş parametrelerini kaydeden, kazaya dayanıklı kayıt cihazı.",
+      "location": "Arka gövde"
+    },
+    "static-port": {
+      "name": "Statik Port",
+      "description": "İrtifa ve hız için statik basıncı algılayan gömme portlar.",
+      "location": "Ön gövde yanları"
+    },
+    "landing-light": {
+      "name": "İniş Işığı",
+      "description": "Yaklaşma ve iniş için yüksek yoğunluklu ışık.",
+      "location": "Kanat kökü / hücum kenarı"
+    },
+    "taxi-and-turnoff-light": {
+      "name": "Taksi ve Dönüş Işığı",
+      "description": "Taksi yolunun önünü ve yanlarını aydınlatır.",
+      "location": "Burun iniş takımı bacağı"
+    },
+    "navigation-light-red-green": {
+      "name": "Seyrüsefer Işığı (Kırmızı/Yeşil)",
+      "description": "Konum ışıkları: solda kırmızı, sağda yeşil.",
+      "location": "Kanat uçları"
+    },
+    "anti-collision-strobe": {
+      "name": "Çarpışma Önleyici Strobe",
+      "description": "Görünürlük için beyaz yüksek yoğunluklu çakar ışıklar.",
+      "location": "Kanat uçları ve kuyruk"
+    },
+    "beacon-light": {
+      "name": "Beacon Işığı",
+      "description": "Motorların çalıştığını gösteren kırmızı döner veya yanıp sönen ışık.",
+      "location": "Üst ve alt gövde"
+    },
+    "logo-light": {
+      "name": "Logo Işığı",
+      "description": "Geceleri dikey stabilizeyi aydınlatır.",
+      "location": "Yatay stabilize"
+    },
+    "cabin-led-light-strip": {
+      "name": "Kabin LED Işık Şeridi",
+      "description": "Kabin boyunca ambiyans aydınlatma şeritleri.",
+      "location": "Kabin tavanı / yan duvar"
+    },
+    "emergency-exit-sign": {
+      "name": "Acil Çıkış İşareti",
+      "description": "Kendi güç kaynaklı ışıklı EXIT işareti.",
+      "location": "Her çıkışın üzerinde"
+    },
+    "floor-path-marking": {
+      "name": "Zemin Yol İşaretlemesi",
+      "description": "Yolcuları çıkışlara yönlendiren fotolüminesan şerit.",
+      "location": "Kabin koridoru zemini"
+    },
+    "air-cycle-machine": {
+      "name": "Hava Çevrim Makinesi",
+      "description": "Her klima paketinin kalbindeki türbin/kompresör ünitesi.",
+      "location": "Gövde altı, merkez kanat altı"
+    },
+    "pack-heat-exchanger": {
+      "name": "Paket Isı Eşanjörü",
+      "description": "Sıcak bleed havasını ram havasıyla soğutur.",
+      "location": "Gövde altı, merkez kanat altı"
+    },
+    "pack-flow-control-valve": {
+      "name": "Paket Akış Kontrol Valfi",
+      "description": "Her pakete giren bleed havası akışını düzenler.",
+      "location": "Paket bölmesi"
+    },
+    "cabin-pressure-controller": {
+      "name": "Kabin Basınç Kontrolörü",
+      "description": "Kabin irtifasını ve değişim hızını düzenler.",
+      "location": "Aviyonik bölmesi"
+    },
+    "outflow-valve": {
+      "name": "Çıkış Akış Valfi",
+      "description": "Basınçlandırmayı ayarlamak için kabinden çıkan havayı modüle eder.",
+      "location": "Arka alt gövde"
+    },
+    "recirculation-fan": {
+      "name": "Resirkülasyon Fanı",
+      "description": "Bleed havası ihtiyacını azaltmak için filtrelenmiş kabin havasını yeniden dolaştırır.",
+      "location": "Karıştırıcı ünite bölgesi"
+    },
+    "trim-air-valve": {
+      "name": "Trim Havası Valfi",
+      "description": "Bölge sıcaklıklarına ince ayar yapmak için sıcak hava ekler.",
+      "location": "Karıştırıcı ünite"
+    },
+    "bleed-air-valve": {
+      "name": "Bleed Havası Valfi",
+      "description": "Motor kompresöründen alınan sıcak bleed havasını kontrol eder.",
+      "location": "Motor pilonu"
+    },
+    "pre-cooler": {
+      "name": "Ön Soğutucu",
+      "description": "Bleed havasını fan havasıyla soğutan ısı eşanjörü.",
+      "location": "Motor pilonu"
+    },
+    "passenger-seat-assembly-economy": {
+      "name": "Yolcu Koltuğu Grubu (Ekonomi)",
+      "description": "Tepsi masalı, can yeleği cepli ve yatırma mekanizmalı üçlü koltuk.",
+      "location": "Ana kabin"
+    },
+    "seat-recline-actuator": {
+      "name": "Koltuk Yatırma Aktüatörü",
+      "description": "Koltuk sırtını konumunda tutan hidrolik kilit.",
+      "location": "Koltuk altı"
+    },
+    "seat-belt-assembly": {
+      "name": "Emniyet Kemeri Grubu",
+      "description": "Metal tokalı sertifikalı kucak kemeri.",
+      "location": "Her koltuk"
+    },
+    "overhead-stowage-bin": {
+      "name": "Üst Bagaj Dolabı",
+      "description": "Mandallı ve amortisörlü üst bagaj dolabı.",
+      "location": "Kabin tavanı"
+    },
+    "galley-coffee-maker": {
+      "name": "Galley Kahve Makinesi",
+      "description": "Su hattına bağlı içecek makinesi, galley ekipmanı.",
+      "location": "Ön / arka galley"
+    },
+    "galley-oven": {
+      "name": "Galley Fırını",
+      "description": "Yemek servisi için buharlı veya konveksiyonlu fırın.",
+      "location": "Ön / arka galley"
+    },
+    "lavatory-vacuum-toilet": {
+      "name": "Vakumlu Tuvalet Ünitesi",
+      "description": "Vakumla sifonlu tuvalet ünitesi.",
+      "location": "Tuvalet"
+    },
+    "potable-water-pump": {
+      "name": "İçme Suyu Pompası",
+      "description": "Galley'lere ve tuvaletlere giden içme suyunu basınçlandırır.",
+      "location": "Su servis bölmesi"
+    },
+    "passenger-oxygen-mask-unit": {
+      "name": "Yolcu Oksijen Maskesi Ünitesi",
+      "description": "Kimyasal oksijen jeneratörleriyle beslenen düşen maskeler.",
+      "location": "Her koltuk sırasının üzerinde"
+    },
+    "crew-oxygen-cylinder": {
+      "name": "Mürettebat Oksijen Tüpü",
+      "description": "Uçuş ekibi için yüksek basınçlı oksijen.",
+      "location": "Ön kargo / aviyonik bölmesi"
+    },
+    "life-vest": {
+      "name": "Can Yeleği",
+      "description": "Işıklı ve düdüklü şişirilebilir can yeleği.",
+      "location": "Her koltuğun altında"
+    },
+    "passenger-door-seal": {
+      "name": "Yolcu Kapısı Contası",
+      "description": "Kapıyı basınç sızdırmaz tutan şişirilebilir / dudaklı conta.",
+      "location": "Ana giriş kapıları"
+    },
+    "emergency-escape-slide": {
+      "name": "Acil Kaçış Kaydırağı",
+      "description": "Kapının içine paketlenmiş şişirilebilir tahliye kaydırağı.",
+      "location": "Her ana kapının içinde"
+    },
+    "door-damper-actuator": {
+      "name": "Kapı Damper Aktüatörü",
+      "description": "Kapı açılma hızını kontrol eder ve acil açılışa güç sağlar.",
+      "location": "Ana giriş kapıları"
+    },
+    "cargo-door-actuator": {
+      "name": "Kargo Kapısı Aktüatörü",
+      "description": "Alt kargo kapılarını açar ve kapatır.",
+      "location": "Ön / arka kargo kapıları"
+    },
+    "overwing-exit-hatch-seal": {
+      "name": "Kanat Üstü Çıkış Kapağı Contası",
+      "description": "Yolcu tarafından açılan kanat üstü acil çıkışlar için conta.",
+      "location": "Kanat üstü çıkışlar"
+    },
+    "cockpit-windshield": {
+      "name": "Kokpit Ön Camı",
+      "description": "Isıtmalı, çok katmanlı lamine cam ön cam.",
+      "location": "Kokpit"
+    },
+    "cabin-window-pane": {
+      "name": "Kabin Pencere Camı",
+      "description": "Nefes deliğine sahip dış ve iç akrilik camlar.",
+      "location": "Kabin yan duvarı"
+    },
+    "window-shade-assembly": {
+      "name": "Pencere Perdesi Grubu",
+      "description": "Elle aşağı çekilen pencere perdesi.",
+      "location": "Kabin yan duvarı"
+    },
+    "engine-fire-detector-loop": {
+      "name": "Motor Yangın Algılama Döngüsü",
+      "description": "Yangın ve aşırı ısınmayı algılayan sürekli algılama elemanı.",
+      "location": "Motor naseli"
+    },
+    "fire-extinguisher-bottle": {
+      "name": "Yangın Söndürme Tüpü",
+      "description": "Motora boşaltılan halon / alternatif ajan tüpü.",
+      "location": "Motor pilonu"
+    },
+    "cargo-smoke-detector": {
+      "name": "Kargo Duman Dedektörü",
+      "description": "Kargo bölmesi dumanı için fotoelektrik dedektör.",
+      "location": "Kargo bölmesi tavanı"
+    },
+    "portable-fire-extinguisher": {
+      "name": "Portatif Yangın Söndürücü",
+      "description": "Kabin yangınları için el tipi söndürücü.",
+      "location": "Kabin ve kokpit"
+    },
+    "lavatory-smoke-detector": {
+      "name": "Tuvalet Duman Dedektörü",
+      "description": "Tuvaletlerdeki dumanı algılar.",
+      "location": "Tuvalet tavanı"
+    },
+    "wing-anti-ice-valve": {
+      "name": "Kanat Buzlanma Önleme Valfi",
+      "description": "Sıcak bleed havasını slat hücum kenarlarına açar.",
+      "location": "Kanat kökü"
+    },
+    "probe-heat-controller": {
+      "name": "Prob Isıtma Kontrolörü",
+      "description": "Pitot, hücum açısı ve sıcaklık problarındaki ısıtıcıları besler ve izler.",
+      "location": "Aviyonik bölmesi"
+    },
+    "windshield-wiper-motor": {
+      "name": "Ön Cam Silecek Motoru",
+      "description": "Ön cam silecek kollarını tahrik eder.",
+      "location": "Ön camın altı"
+    },
+    "engine-oil-filter": {
+      "name": "Motor Yağ Filtresi",
+      "description": "Motor yağındaki kalıntıları temizler. Metal partiküllere karşı kontrol edilir.",
+      "location": "Motor yağ sistemi"
+    },
+    "hydraulic-filter-element": {
+      "name": "Hidrolik Filtre Elemanı",
+      "description": "Basınç ve dönüş hattı filtre elemanları.",
+      "location": "Hidrolik manifoldlar"
+    },
+    "fuel-filter-element": {
+      "name": "Yakıt Filtre Elemanı",
+      "description": "Yakıt ölçüm ünitesini kirlenmeye karşı korur.",
+      "location": "Motor yakıt sistemi"
+    },
+    "cabin-hepa-filter": {
+      "name": "Kabin HEPA Filtresi",
+      "description": "Resirküle edilen havadaki partikülleri ve mikropları temizler.",
+      "location": "Resirkülasyon sistemi"
+    },
+    "engine-turbine-oil-quart": {
+      "name": "Motor Türbin Yağı (Quart)",
+      "description": "Servis için sentetik türbin yağı.",
+      "location": "Motor yağ tankı"
+    },
+    "phosphate-ester-hydraulic-fluid": {
+      "name": "Fosfat Esterli Hidrolik Sıvı",
+      "description": "Yolcu uçağı hidrolik sistemlerinde kullanılan yanmaya dayanıklı sıvı.",
+      "location": "Hidrolik rezervuarlar"
+    },
+    "o-ring-seal-kit": {
+      "name": "O-Ring Conta Kiti",
+      "description": "Çeşitli havacılık sınıfı elastomer contalar.",
+      "location": "Çeşitli"
+    },
+    "safety-wire-and-cotter-pin-kit": {
+      "name": "Emniyet Teli ve Kopilya Kiti",
+      "description": "Bağlantı elemanları için kilitleme donanımı.",
+      "location": "Çeşitli"
+    },
+    "navigation-lamp-replacement": {
+      "name": "Yedek Seyrüsefer Lambası",
+      "description": "Konum ışıkları için yedek LED modül / lamba.",
+      "location": "Kanat uçları"
+    },
+    "wheel-bearing-grease": {
+      "name": "Tekerlek Rulman Gresi",
+      "description": "Tekerlek rulmanları için yüksek sıcaklık gresi.",
+      "location": "Tekerlek rulmanları"
+    },
+    "water-filter-cartridge": {
+      "name": "Su Filtresi Kartuşu",
+      "description": "Kullanım noktası içme suyu filtresi.",
+      "location": "Galley su hattı"
+    },
+    "windshield-wiper-blade": {
+      "name": "Ön Cam Silecek Lastiği",
+      "description": "Değiştirilebilir kauçuk silecek lastiği ve kol parçası.",
+      "location": "Kokpit ön camı"
+    },
+    "tyre-valve-core-kit": {
+      "name": "Lastik Sibop İçi Kiti",
+      "description": "Nitrojenle lastik servisi için sibop içleri ve kapakları.",
+      "location": "Tekerlek şişirme sibopları"
+    },
+    "polysulfide-sealant-cartridge": {
+      "name": "Polisülfür Sızdırmazlık Kartuşu",
+      "description": "Yakıt tankları, bağlantı elemanları ve kaportalar için iki bileşenli sızdırmazlık maddesi.",
+      "location": "Yapı ve yakıt tankları"
+    },
+    "hi-lok-fastener-kit": {
+      "name": "Hi-Lok Bağlantı Elemanı Kiti",
+      "description": "Yapısal onarımlar için titanyum pimler ve bilezikler.",
+      "location": "Gövde yapısı"
+    }
+  }
+}
