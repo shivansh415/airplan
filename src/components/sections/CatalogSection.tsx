@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useDeferredValue, useMemo, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "@/lib/scroll";
@@ -128,6 +129,17 @@ export function CatalogSection() {
         ) : (
           <div className="py-32 text-center text-ink/55">{t("cat.empty")}</div>
         )}
+
+        <div className="mt-20 flex flex-col items-start justify-between gap-6 rounded-[28px] bg-ink px-6 py-10 text-paper-2 md:flex-row md:items-center md:px-12">
+          <div>
+            <h3 className="display text-[clamp(26px,3vw,44px)]">{t("cat.ctaTitle")}</h3>
+            <p className="mt-3 max-w-[520px] text-[15px] leading-relaxed text-paper-2/70">{t("cat.ctaBody")}</p>
+          </div>
+          <Link href="/about#contact" className="btn shrink-0">
+            {t("about.ctaPrimary")}
+            <span className="grid h-6 w-6 place-items-center rounded-full bg-ink text-[11px] text-white rtl:-scale-x-100">→</span>
+          </Link>
+        </div>
 
         <div className="mt-24 grid gap-6 border-t border-ink/15 pt-10 md:grid-cols-4">
           {CATEGORIES.map((c) => (

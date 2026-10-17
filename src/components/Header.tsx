@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useUI } from "@/lib/store";
 import { audio } from "@/lib/audio";
@@ -57,14 +58,25 @@ export function Header() {
               {t(n.label)}
             </button>
           ))}
+          <Link href="/about" className="opacity-90 transition-opacity hover:opacity-60">
+            {t("nav.about")}
+          </Link>
         </nav>
         <button onClick={() => scrollToId("top")} className="col-start-2 text-center" aria-label="Back to top">
           <span className="wide text-[22px] font-light tracking-[0.02em] md:text-[26px]">{BRAND.name}</span>
           <span className="eyebrow mt-0.5 block text-[9px] opacity-60">{t("brand.sub")}</span>
         </button>
         <div className="flex items-center justify-end gap-3 text-[14px] font-semibold sm:gap-5 md:gap-7">
-          <span className="mono hidden text-[12px] opacity-70 lg:inline">{t("header.count", { n: PARTS.length })}</span>
+          <span className="mono hidden text-[12px] opacity-70 2xl:inline">{t("header.count", { n: PARTS.length })}</span>
           <LanguageSwitcher />
+          <Link
+            href="/about#contact"
+            className={`hidden rounded-full px-4 py-2 text-[13px] font-semibold transition-colors md:inline-flex ${
+              dark ? "bg-white text-ink hover:bg-white/85" : "bg-ink text-paper-2 hover:bg-ink/85"
+            }`}
+          >
+            {t("cta.quote")}
+          </Link>
           <button onClick={toggleSound} className="flex items-center gap-2" aria-pressed={sound} aria-label="Toggle sound">
             <span className="flex h-3.5 items-end gap-[2px]">
               {[0, 1, 2, 3].map((i) => (

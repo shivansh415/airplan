@@ -76,7 +76,18 @@ export function PartView({ id }: { id: string }) {
             ))}
           </dl>
 
-          <div className="mt-8 rounded-2xl bg-white/60 p-5 text-[14px] leading-relaxed text-ink/75">
+          <Link
+            href={`/about?part=${part.id}#contact`}
+            className="group mt-8 flex items-center justify-between gap-4 rounded-2xl bg-ink px-6 py-5 text-paper-2 transition-transform hover:-translate-y-0.5"
+          >
+            <span>
+              <span className="block text-[17px] font-semibold">{t("part.enquire")}</span>
+              <span className="mt-0.5 block text-[13.5px] text-paper-2/65">{t("part.enquireSub")}</span>
+            </span>
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-ink transition-transform group-hover:translate-x-1 rtl:-scale-x-100">→</span>
+          </Link>
+
+          <div className="mt-4 rounded-2xl bg-white/60 p-5 text-[14px] leading-relaxed text-ink/75">
             <span className="font-semibold text-ink">{category.name}.</span> {category.info}
           </div>
         </div>
