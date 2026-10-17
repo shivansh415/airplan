@@ -43,3 +43,8 @@ next-env.d.ts
 # local only
 /references
 /.claude
+
+# deploy artefacts
+/.next-build/
+/.next-prev/
+.deploy-lock-hash
